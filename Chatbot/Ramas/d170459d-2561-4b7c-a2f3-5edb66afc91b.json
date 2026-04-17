@@ -1,0 +1,1349 @@
+{
+  "id": "highlands-bot-pro-200",
+  "name": "HighlandsBot",
+  "speciality": "Soluciones creativas, estratégicas y memorables para marcas",
+  "description": "Soy un agente experto listo para responder tus preguntas sobre Highlands Studio en las siguientes categorías: Servicios de Producción Audiovisual, Servicios de Estrategias Digitales, Costos y Paquetes, Filosofía y Diferenciadores, y nuestro Proceso de Trabajo.",
+  "endSessionMessage": "La sesión ha concluido. Ha sido un placer ayudarte.",
+  "unknownMessage": "No he encontrado una respuesta para tu pregunta en mi base de datos, pero estoy aprendiendo constantemente. Puedes contactarnos directamente en contacto@highlands.mx para más detalles.",
+  "byeMessage": "Un placer conversar contigo. En Highlands Studio estamos listos para ser tus socios estratégicos. ¡Hasta pronto!",
+  "qa_pairs": [
+    {
+      "question": "Hola",
+      "answer": "¡Hola! Soy HighlandsBot. Como narradores de historias y arquitectos de experiencias, estamos aquí para ayudarte a trascender con soluciones creativas, estratégicas y memorables. ¿En qué puedo ayudarte hoy?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Buenos días",
+      "answer": "¡Buenos días! Te saluda HighlandsBot. Somos catalizadores de crecimiento para marcas y estamos listos para resolver tus dudas sobre nuestra filosofía y servicios. ¿Qué te gustaría saber?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Info",
+      "answer": "¡Claro! Estás en el lugar indicado. Soy HighlandsBot y mi especialidad es darte toda la información sobre nuestras soluciones creativas y estratégicas para elevar tu marca. ¿Por dónde empezamos?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "¿Qué tal?",
+      "answer": "¿Qué tal? Soy HighlandsBot, tu especialista en las soluciones memorables que Highlands Studio ofrece. Nuestra misión es ayudar a las marcas a trascender. Pregúntame lo que necesites.",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Saludos",
+      "answer": "¡Saludos! Soy HighlandsBot. En Highlands Studio diseñamos experiencias que cautivan y convierten. Estoy aquí para asistirte con cualquier pregunta sobre nuestro estudio. ¿Cómo puedo ayudarte?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Quisiera información",
+      "answer": "Por supuesto. Soy HighlandsBot, tu guía en el universo de Highlands Studio. Mi propósito es darte información sobre nuestras soluciones creativas y estratégicas. ¿Sobre qué servicio te gustaría saber más?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Buenas tardes",
+      "answer": "Buenas tardes. Bienvenido a Highlands Studio. Soy HighlandsBot, listo para informarte sobre cómo ayudamos a las marcas a crecer con nuestra filosofía de creatividad elevada y estrategia inteligente. ¿En qué te puedo asistir?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Ayuda",
+      "answer": "Con gusto te ayudo. Soy HighlandsBot, tu especialista en los servicios y procesos de Highlands Studio. Nos definimos como arquitectos de experiencias memorables. ¿Qué duda tienes?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Hey",
+      "answer": "Hey, ¡qué bueno que estás aquí! Soy HighlandsBot. En Highlands Studio transformamos ideas en experiencias memorables. Dime, ¿qué información estás buscando?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Me pueden informar sobre sus servicios",
+      "answer": "Claro que sí. Soy HighlandsBot y estoy aquí para eso. Nos especializamos en crear soluciones estratégicas y memorables para marcas. ¿Te interesa Branding, Diseño, Producción Audiovisual o Estrategias Digitales?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Buenas",
+      "answer": "¡Buenas! Soy HighlandsBot, tu contacto en Highlands Studio. Nuestra pasión es la intersección de la estrategia inteligente y la ejecución impecable. ¿Cómo puedo orientarte hoy?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Oigan",
+      "answer": "Hola, te escucho. Soy HighlandsBot. Como catalizadores de crecimiento, estamos listos para responder tus preguntas sobre cómo podemos elevar tu marca. ¿Qué te gustaría saber?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Necesito un presupuesto",
+      "answer": "Entendido. Antes de un presupuesto, permíteme ayudarte a entender qué ofrecemos. Soy HighlandsBot. Nos especializamos en soluciones creativas a medida. ¿Conoces nuestro Paquete Despegue o buscas otro servicio?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "¿Están disponibles?",
+      "answer": "Sí, totalmente disponible para ti. Soy HighlandsBot. En Highlands Studio estamos listos para ser tus socios estratégicos. ¿Qué información necesitas sobre nuestros servicios?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Quiero cotizar",
+      "answer": "Perfecto. Soy HighlandsBot. Para darte la mejor información, primero te explico nuestras soluciones creativas y estratégicas. ¿Buscas una landing page, branding, un video o una campaña digital?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Hola, ¿me das información del Paquete Despegue?",
+      "answer": "¡Hola! Por supuesto. Soy HighlandsBot. Estás en el lugar correcto para conocer todo sobre nuestras soluciones, incluyendo el Paquete Despegue. ¿Qué duda específica tienes sobre él?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Podrían ayudarme",
+      "answer": "Desde luego. Soy HighlandsBot y mi objetivo es ayudarte. Como arquitectos de experiencias, queremos que entiendas cómo podemos potenciar tu marca. ¿Cuál es tu consulta?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Qué onda",
+      "answer": "¡Qué onda! Soy HighlandsBot. Aquí en Highlands Studio creamos soluciones memorables para marcas que buscan trascender. Estoy a tus órdenes para cualquier pregunta.",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Empiecen",
+      "answer": "¡Comencemos! Soy HighlandsBot, tu especialista en los servicios de Highlands Studio, donde creamos soluciones estratégicas y memorables. ¿Qué es lo primero que te gustaría saber?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "Disculpen",
+      "answer": "No hay nada que disculpar, estoy para servirte. Soy HighlandsBot. Nuestra misión es ser catalizadores de crecimiento para tu marca. ¿En qué tema te puedo orientar?",
+      "type": "Hello",
+      "deep": 1
+    },
+    {
+      "question": "¿Cuál es el costo del 'Paquete Despegue' y cómo se paga?",
+      "answer": "El Paquete 'Despegue' tiene una inversión total de pago único de $2,999 MXN. La forma de pago es un 50% de anticipo para iniciar el proyecto y el 50% restante contra la entrega final.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿El precio de $2,999 MXN por la landing page es final?",
+      "answer": "Sí, es una inversión total en un pago único. No hay cargos ocultos ni mensualidades por el diseño. El costo de dominio y hosting es aparte, pero te asesoramos para conseguirlo económicamente.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Qué incluye exactamente el Paquete Despegue?",
+      "answer": "Incluye un diseño 100% personalizado, estrategia visual, optimización para móviles, formulario de contacto y un botón de conexión directa a WhatsApp. Todo entregado en 7 días hábiles.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿El diseño de la página es con plantilla o es único?",
+      "answer": "Es 100% personalizado y único. Nuestra promesa es olvidarse de lo genérico. Creamos cada diseño desde cero, exclusivamente para tu marca, asegurando que no se parezca a ningún otro.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Qué significa que el dominio y hosting no están incluidos?",
+      "answer": "Significa que esos servicios, que son el nombre y el almacenamiento de tu web, se contratan por separado a tu nombre. Te asesoramos sin costo para que obtengas la mejor opción por menos de $500 al año.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Cuántos cambios puedo hacer al diseño de mi landing page?",
+      "answer": "El proceso incluye una ronda completa de ajustes. Te presentamos la propuesta de diseño y tú nos das toda tu retroalimentación para asegurar que el resultado final sea perfecto y cumpla tus expectativas.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Cuánto tiempo tardan en entregar la página del Paquete Despegue?",
+      "answer": "Nuestro proceso está optimizado para que tu nuevo sitio web profesional esté listo para ser lanzado en un tiempo récord de 7 días hábiles, una vez que nos entregas la información inicial.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿El Paquete Despegue incluye la optimización para celulares?",
+      "answer": "Sí, por supuesto. Garantizamos una experiencia de usuario optimizada y una visualización perfecta de tu página tanto en dispositivos móviles como en computadoras de escritorio. Es una prioridad para nosotros.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "Para el Paquete Despegue, ¿puedo integrar un botón de WhatsApp?",
+      "answer": "Sí, la conexión directa a WhatsApp está incluida. Implementamos un botón para que tus visitantes puedan iniciar una conversación contigo de forma inmediata, facilitando el primer contacto.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Qué pasa si después quiero agregar más funciones a mi landing page?",
+      "answer": "¡Excelente! La landing page es un gran comienzo. En el futuro, podemos cotizarte por separado el desarrollo de nuevas secciones, un blog o cualquier otra funcionalidad que necesites para hacer crecer tu sitio.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿El costo de $2,999 MXN es mensual?",
+      "answer": "No, es un pago único. No hay mensualidades ni cargos recurrentes por el diseño. Una vez que liquidas el proyecto, el diseño de la página es completamente tuyo.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿El Paquete Despegue incluye un formulario de contacto?",
+      "answer": "Sí, el formulario de contacto está integrado. Esto facilita que tus clientes potenciales se comuniquen contigo directamente desde tu sitio, enviando la información a tu correo electrónico.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Me asesoran para comprar el dominio y hosting?",
+      "answer": "Sí, te asesoramos sin ningún costo adicional. Te guiamos para que adquieras la mejor opción a tu nombre, asegurando que tengas control total y un precio muy accesible.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "Si elijo el Paquete Despegue, ¿el diseño se verá profesional?",
+      "answer": "Absolutamente. Fusionamos creatividad elevada y estrategia para construir un activo digital a medida. El objetivo es que tu presencia digital refleje la calidad de tus servicios y te dé credibilidad instantánea.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Por qué el Paquete Despegue es tan accesible comparado con otras agencias?",
+      "answer": "Creemos que el diseño excepcional no debe ser un lujo. Hemos optimizado nuestro proceso para ser muy eficientes sin sacrificar la calidad de un diseño a medida, haciéndolo accesible para emprendedores.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿La 'estrategia visual' está incluida en el Paquete Despegue?",
+      "answer": "Sí. No solo diseñamos algo bonito, sino efectivo. Alineamos la estética con tus objetivos de negocio para asegurar que el diseño de tu página trabaje para ti y conecte con tu audiencia.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Qué tan rápido puedo tener mi página web con el Paquete Despegue?",
+      "answer": "Puedes tener tu sitio web listo para lanzar en solo 7 días hábiles. Nuestro proceso está diseñado para ser ágil y eficiente, entregando resultados de alta calidad en tiempo récord.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿El Paquete Despegue es para cualquier tipo de negocio?",
+      "answer": "Está diseñado especialmente para profesionistas, emprendedores y freelancers de servicios, como nutriólogos, psicólogos, coaches o consultores, que buscan profesionalizar su presencia digital de forma accesible.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Hay algún costo extra en el Paquete Despegue que deba conocer?",
+      "answer": "No. El único costo adicional, que es externo a nosotros, es la compra anual de tu dominio y hosting, para lo cual te asesoramos para que sea muy económico. Nuestro precio de diseño es fijo.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Cómo garantizan que el diseño del Paquete Despegue será 'único'?",
+      "answer": "Nuestra garantía es nuestro proceso. No usamos plantillas. Cada proyecto empieza en una hoja en blanco, basando el diseño exclusivamente en tu marca, valores y objetivos para un resultado 100% original.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿La forma de pago del 50/50 aplica siempre para el Paquete Despegue?",
+      "answer": "Sí, es nuestro método estándar para formalizar el proyecto. Se cubre un 50% de anticipo para iniciar el trabajo y reservar a nuestro equipo, y el 50% restante se liquida al aprobar la entrega final.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "Si contrato el Paquete Despegue, ¿quién es el dueño de la página al final?",
+      "answer": "Tú eres el dueño absoluto. Tanto el diseño que creamos como el dominio y hosting que compras a tu nombre son 100% de tu propiedad una vez que el proyecto está liquidado.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Puedo ver ejemplos de otros 'Paquetes Despegue' que hayan hecho?",
+      "answer": "Claro. Aunque cada diseño es único, podemos mostrarte proyectos previos para que compruebes la calidad, el nivel de personalización y el tipo de resultados que entregamos a nuestros clientes.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "Si mi negocio crece, ¿el Paquete Despegue puede crecer conmigo?",
+      "answer": "¡Esa es la idea! La landing page es el cimiento. A partir de ahí, podemos ayudarte a evolucionar hacia un sitio web completo con nuevas secciones, blog o tienda en línea cuando lo necesites.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Puedo vender productos directamente con el Paquete Despegue?",
+      "answer": "El Paquete Despegue está enfocado en la presentación de servicios y captura de prospectos. Para vender productos directamente, necesitarías un servicio de e-commerce, el cual también ofrecemos pero es un proyecto diferente.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿El pago de $1,499.50 de anticipo es reembolsable?",
+      "answer": "El anticipo no es reembolsable, ya que asegura la asignación de nuestro equipo creativo y cubre la fase inicial de estrategia y diseño para tu proyecto. Es el compromiso para iniciar.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Se incluye redacción de textos en el Paquete Despegue?",
+      "answer": "El paquete no incluye la redacción de textos (copywriting), ya que nadie conoce el negocio como tú. Sin embargo, te asesoramos sobre la estructura y el enfoque de los textos para que sean efectivos.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Las imágenes para la página están incluidas en el Paquete Despegue?",
+      "answer": "Si no cuentas con imágenes, podemos utilizar bancos de imágenes de alta calidad con licencia. Si requieres una sesión de fotos o video profesional, podemos cotizarte por separado nuestros servicios de producción audiovisual.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "Para el pago, ¿aceptan tarjeta de crédito?",
+      "answer": "Sí, aceptamos transferencias bancarias y también podemos generar un enlace de pago seguro para que puedas realizar la inversión cómodamente con tu tarjeta de crédito o débito.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿El Paquete Despegue incluye correo electrónico profesional?",
+      "answer": "El servicio de correo profesional (ej. contacto@tuempresa.com) usualmente viene incluido en el paquete de hosting que adquieres. Nos aseguramos de que elijas una opción que lo ofrezca.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Qué pasa si necesito más de una ronda de ajustes?",
+      "answer": "Nuestro proceso es tan colaborativo que una ronda suele ser suficiente. Si surgieran cambios adicionales significativos fuera del alcance, se cotizarían de forma transparente antes de realizar cualquier trabajo extra.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿El precio del Paquete Despegue incluye IVA?",
+      "answer": "El precio de $2,999 MXN es la inversión final por el servicio. Si necesitas una factura fiscal, se agregaría el impuesto correspondiente al monto total.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Qué tan bueno es el soporte post-lanzamiento para el Paquete Despegue?",
+      "answer": "Una vez entregada, la página es tuya. Las landing pages bien construidas requieren mínimo mantenimiento. Para futuras actualizaciones de contenido o soporte técnico, ofrecemos paquetes o soporte por hora a tarifas accesibles.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "Si contrato el paquete, ¿firman algún contrato?",
+      "answer": "Sí. La propuesta detallada que te enviamos, junto con la confirmación del pago inicial, funciona como nuestro acuerdo de trabajo, especificando el alcance, los entregables y los términos del proyecto para tu tranquilidad.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿El precio del paquete puede cambiar si mi landing page es más larga?",
+      "answer": "El Paquete Despegue está diseñado para una landing page de una sola sección, con un objetivo claro. Si tu necesidad requiere una estructura más compleja o multi-página, te prepararíamos una cotización a medida.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Costos y Paquetes"
+    },
+    {
+      "question": "¿Qué es lo que los hace diferentes a otras agencias?",
+      "answer": "Nos distingue nuestro enfoque estratégico con análisis profundo, una narrativa poderosa que conecta emocionalmente con la audiencia y el uso de tecnología de vanguardia para asegurar la innovación y entregar resultados medibles.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Cuál es la filosofía de trabajo de Highlands Studio?",
+      "answer": "Creemos que las grandes ideas nacen de una perspectiva elevada. Buscamos trascender lo convencional, fusionando estrategia inteligente con una ejecución impecable para crear soluciones que dejen una huella memorable.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Quiénes son Highlands Studio?",
+      "answer": "Somos más que una agencia; nos definimos como narradores de historias, arquitectos de experiencias y catalizadores de crecimiento. Ayudamos a las marcas a trascender a través de soluciones creativas, estratégicas y memorables.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "Mencionan 'creatividad elevada', ¿a qué se refieren?",
+      "answer": "Significa que no nos conformamos con lo convencional. Buscamos constantemente trascender los límites de la creatividad para ofrecer soluciones que no solo cumplan objetivos, sino que también dejen una marca inolvidable.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Cuáles son los valores principales de su agencia?",
+      "answer": "Nuestros valores son la colaboración estrecha con nuestros clientes, la innovación constante para resolver desafíos y la excelencia en cada detalle, pues nos dedicamos a entregar resultados impecables.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Por qué dicen que son 'narradores de historias'?",
+      "answer": "Porque creemos que las mejores marcas conectan emocionalmente. No solo vendemos un producto o servicio, contamos la historia detrás de él para crear un lazo poderoso y duradero con la audiencia.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Qué significa ser 'arquitectos de experiencias'?",
+      "answer": "Significa que diseñamos cada punto de contacto entre la marca y el cliente. Desde un sitio web hasta un empaque, construimos una experiencia cohesiva e impactante que refleja la calidad de la marca.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Cómo garantizan resultados medibles?",
+      "answer": "Cada proyecto está respaldado por un análisis profundo y una visión clara. Nuestro enfoque se centra en la medición, el análisis de métricas y la optimización continua para garantizar resultados tangibles y un impacto real.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Cómo aplican la 'tecnología de vanguardia'?",
+      "answer": "Aplicamos las últimas herramientas y metodologías en nuestros proyectos. Un ejemplo es el uso de inteligencia artificial en nuestros efectos visuales (VFX) para crear producciones audiovisuales innovadoras y únicas.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Qué es un 'enfoque estratégico' para ustedes?",
+      "answer": "Significa que cada pieza creativa, desde un logo hasta un anuncio, está respaldada por una investigación y un plan. No diseñamos por diseñar, lo hacemos para cumplir objetivos de negocio específicos.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "En sus valores mencionan la 'colaboración', ¿cómo funciona?",
+      "answer": "Trabajamos en una alianza estrecha y abierta con nuestros clientes. Fomentamos un entorno donde las ideas fluyen libremente, valoramos diferentes perspectivas y te consideramos un socio en el proceso creativo.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Qué los impulsa a buscar la 'excelencia'?",
+      "answer": "Es nuestro compromiso colectivo. Cada detalle importa y todo nuestro equipo, desde directores de arte hasta estrategas, comparte una pasión por la excelencia y la superación constante de nuestras propias expectativas.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Su equipo es especializado?",
+      "answer": "Sí, nuestro equipo es multidisciplinario. Está compuesto por directores de arte, cineastas, estrategas digitales y desarrolladores innovadores que trabajan en conjunto para hacer realidad los proyectos.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "Mi marca es nueva, ¿pueden ayudarme a posicionarla?",
+      "answer": "Absolutamente. Ser 'catalizadores de crecimiento' es nuestra esencia. A través de branding y estrategias digitales, definimos cómo debe ser percibida tu marca y la posicionamos de manera efectiva en el mercado.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Por qué es importante una 'narrativa poderosa'?",
+      "answer": "Porque las historias conectan, la gente olvida datos pero recuerda emociones. Una narrativa poderosa hace que tu marca sea memorable, la diferencia de la competencia y crea lealtad en tus clientes.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Cómo es la cultura de trabajo en Highlands Studio?",
+      "answer": "Fomentamos una cultura de colaboración abierta, donde las ideas fluyen libremente y se valoran todas las perspectivas. Tenemos una pasión colectiva por la excelencia y la innovación constante en todo lo que hacemos.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "Si los contrato, ¿qué diferencia clave notaré?",
+      "answer": "Notarás un enfoque estratégico que va más allá de lo estético. No solo recibirás un diseño, sino una solución pensada para cumplir tus metas, contada de una forma que conecte y respaldada por un proceso impecable.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "Son una agencia de México, ¿cierto?",
+      "answer": "Sí, estamos orgullosamente establecidos en México, con dirección en Nezahualcóyotl, Estado de México. Desde aquí, atendemos a clientes de toda la república con nuestra filosofía de creatividad elevada.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "Su lema es 'We Design Experiences', ¿qué implica?",
+      "answer": "Implica que nuestro trabajo va más allá de un entregable. Diseñamos todo el viaje del cliente con la marca, asegurando que cada interacción sea memorable, cohesiva y comunique valor de manera efectiva.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Qué los inspira a ser innovadores?",
+      "answer": "Nos inspira el deseo de resolver desafíos de formas nuevas y más efectivas. La innovación constante es uno de nuestros valores fundamentales; siempre estamos buscando nuevas maneras de contar historias y superar retos.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Cómo logran que las soluciones sean 'memorables'?",
+      "answer": "Lo logramos a través de la unión de una narrativa poderosa y una creatividad sin límites. Creamos conceptos que sorprenden, emocionan y se quedan en la mente de la audiencia mucho después del primer contacto.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Qué tipo de profesionales forman su equipo?",
+      "answer": "Nuestro equipo es diverso y talentoso. Contamos con directores de arte, cineastas, estrategas digitales y desarrolladores innovadores. Esta mezcla de perfiles nos permite abordar los proyectos desde una perspectiva integral.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "El nombre 'Highlands', ¿tiene que ver con su filosofía?",
+      "answer": "Sí, totalmente. 'Highlands' (tierras altas) refleja nuestra filosofía de buscar siempre una 'perspectiva elevada'. Es mirar los proyectos desde arriba para tener una visión más clara, estratégica y creativa.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Cómo se aseguran de que el trabajo sea 'impecable'?",
+      "answer": "A través de nuestro valor de 'Excelencia'. Para nosotros, cada detalle importa. Tenemos procesos de revisión y control de calidad internos para garantizar que cada entregable cumpla con los más altos estándares.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Trabajan con cualquier tipo de marca?",
+      "answer": "Ayudamos a las marcas a trascender, sin importar su tamaño. Nuestra filosofía y procesos se adaptan para construir y revitalizar marcas con propósito, que busquen conectar auténticamente con su público.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Creen que la estrategia es más importante que la creatividad?",
+      "answer": "Creemos que son inseparables. Nuestra pasión radica en la intersección de la estrategia inteligente y la ejecución creativa impecable. Una no puede brillar sin la otra para lograr resultados que impacten.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Cuál es el propósito de su documento corporativo?",
+      "answer": "El propósito es presentar quiénes somos, nuestra filosofía de creatividad elevada, nuestro proceso colaborativo y, sobre todo, cómo podemos ayudarte a elevar tu marca y diseñar experiencias que cautiven y conviertan.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "Al final, ¿qué es lo más importante para Highlands Studio?",
+      "answer": "Lo más importante es ser catalizadores de crecimiento para nuestros clientes. Ver cómo las marcas trascienden y alcanzan sus objetivos gracias a nuestras soluciones creativas y estratégicas es nuestra mayor satisfacción.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Cómo manejan la relación con el cliente?",
+      "answer": "La manejamos como una alianza estrecha. La colaboración es un valor clave. Mantenemos comunicación constante y consideramos al cliente un socio estratégico durante todo el proceso para alcanzar objetivos comunes.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Su enfoque es más artístico o más de negocio?",
+      "answer": "Es una fusión de ambos. No creemos en el arte por el arte en el mundo comercial. Aplicamos nuestra creatividad elevada y diseño excepcional para cumplir objetivos de negocio claros y medibles.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Qué significa que la creatividad no tenga 'límites' para ustedes?",
+      "answer": "Significa que no nos ponemos barreras a la hora de idear. Exploramos conceptos audaces, aplicamos nuevas tecnologías y buscamos ángulos inesperados para que las soluciones de nuestros clientes realmente destaquen.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "Si su valor es la innovación, ¿cómo se mantienen actualizados?",
+      "answer": "Nuestro equipo está en constante formación, investigando nuevas metodologías y herramientas. Además, fomentamos una cultura de experimentación donde probamos nuevas tecnologías, como la IA en VFX, para estar siempre a la vanguardia.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Cómo describen su propio branding como agencia?",
+      "answer": "Nuestro branding refleja nuestra filosofía: elevado, estratégico y memorable. Usamos un lenguaje que evoca visión y excelencia, y una identidad visual limpia y profesional que transmite confianza y creatividad.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "Finalmente, ¿por qué debería confiar en Highlands Studio?",
+      "answer": "Porque no solo te ofrecemos servicios, te ofrecemos una alianza estratégica. Nuestro compromiso con la excelencia, un proceso transparente y un equipo apasionado son tu garantía de que trabajaremos incansablemente para elevar tu marca.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Filosofía y Diferenciadores"
+    },
+    {
+      "question": "¿Cuál es su proceso de trabajo al iniciar un proyecto?",
+      "answer": "Comenzamos con una conversación para entender tu visión. Luego, analizamos el mercado, conceptualizamos ideas, presentamos una propuesta detallada, y ejecutamos el proyecto con revisiones colaborativas constantes para garantizar resultados excepcionales.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Cuál es el primer paso para trabajar con ustedes?",
+      "answer": "Todo comienza con el primer contacto y una fase de descubrimiento. Es una conversación inicial donde buscamos entender a fondo tu visión, tus desafíos y las aspiraciones que tienes para tu marca.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Qué hacen en la fase de 'análisis y conceptualización'?",
+      "answer": "En esta fase, investigamos a fondo tu mercado, tu audiencia y tu competencia. Con esa información, nuestro equipo desarrolla ideas innovadoras y conceptos creativos que servirán como base para la propuesta.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Cómo es la propuesta que presentan?",
+      "answer": "Presentamos una propuesta de diseño detallada que incluye el alcance completo del proyecto, las soluciones creativas que planteamos, los plazos de entrega y el presupuesto de manera clara y transparente.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "El proceso menciona 'revisiones colaborativas', ¿qué significa?",
+      "answer": "Significa que no trabajamos en un vacío. Durante la ejecución, mantenemos comunicación constante contigo y te presentamos los avances en revisiones periódicas para recibir tu feedback y asegurar que el resultado te encante.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Qué pasa después de que se lanza el proyecto?",
+      "answer": "No desaparecemos. Celebramos el lanzamiento contigo, monitoreamos los resultados iniciales y te ofrecemos nuestro asesoramiento. Además, siempre estamos explorando nuevas oportunidades de crecimiento y evolución para tu marca.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "Para el Paquete Despegue, ¿cómo inicia el proceso?",
+      "answer": "El proceso para el Paquete Despegue es muy claro. Inicia con el pago del 50% de anticipo y el llenado de nuestro formulario de onboarding. Ahí es donde entendemos tu visión y objetivos específicos.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "En el proceso del Paquete Despegue, ¿cuándo veo el diseño?",
+      "answer": "Después de la fase de descubrimiento, nuestro equipo diseña y construye la primera versión. Luego, te la presentamos para tu retroalimentación en la ronda de ajustes incluida en el paquete.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "Si pido cambios, ¿en qué parte del proceso se hacen?",
+      "answer": "Los cambios se realizan en la fase de 'ejecución y revisiones colaborativas'. Es el momento designado para que nos des tu feedback y nosotros ajustemos el trabajo para alinearlo perfectamente a tus expectativas.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "El 'descubrimiento' suena importante, ¿qué necesitan de mí en esa etapa?",
+      "answer": "En esa etapa necesitamos tu visión, tus metas, información sobre tu cliente ideal y lo que hace única a tu marca. Cuanto más nos compartas, mejor podremos conceptualizar una solución que realmente te represente.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿El proceso de trabajo es el mismo para todos los servicios?",
+      "answer": "La estructura base de nuestro proceso (descubrimiento, conceptualización, propuesta, ejecución y lanzamiento) es la misma, ya que garantiza calidad y colaboración. Sin embargo, los detalles y tiempos se adaptan a la complejidad de cada servicio.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Cómo me mantienen informado durante la ejecución del proyecto?",
+      "answer": "A través de una comunicación constante. Dependiendo del proyecto, establecemos canales de comunicación y puntos de control periódicos para que siempre estés al tanto de los avances y puedas dar tu opinión.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Qué tan flexible es su proceso de trabajo?",
+      "answer": "Nuestro proceso es una guía estructurada para garantizar la calidad, pero somos flexibles. Entendemos que cada cliente es único, y podemos adaptar ciertos aspectos de la comunicación y las revisiones para tu comodidad.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "En la fase de 'análisis', ¿solo ven a la competencia?",
+      "answer": "No, es mucho más profundo. Analizamos el mercado en general, las tendencias actuales, el comportamiento de tu audiencia objetivo y, por supuesto, el posicionamiento de la competencia para encontrar oportunidades únicas para tu marca.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "Una vez que apruebo la propuesta, ¿qué sigue inmediatamente?",
+      "answer": "Una vez aprobada la propuesta y cubierto el anticipo, sigue la fase de 'ejecución'. Nuestro equipo de diseñadores, desarrolladores o cineastas, según el caso, comienza a dar vida al proyecto basándose en el plan acordado.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Qué significa la 'evolución' en su última fase del proceso?",
+      "answer": "Significa que vemos nuestra relación a largo plazo. La evolución es buscar activamente nuevas oportunidades para que tu marca siga creciendo, ya sea con nuevas campañas, expandiendo tu web o explorando otras áreas.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "Si no estoy seguro de lo que necesito, ¿su proceso me ayuda?",
+      "answer": "Sí, totalmente. La fase de 'primer contacto y descubrimiento' está diseñada precisamente para eso. Hacemos las preguntas correctas para ayudarte a clarificar tus necesidades y objetivos antes de proponer una solución.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Cuánto tiempo suele durar cada fase del proceso?",
+      "answer": "La duración varía según la complejidad del proyecto. La fase de descubrimiento puede ser rápida, mientras que la ejecución es la más larga. En cada propuesta, te presentamos un cronograma detallado con los plazos.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Puedo rechazar una propuesta de diseño?",
+      "answer": "Claro, tu satisfacción es lo primero. Si una propuesta no te convence, la fase de 'revisiones colaborativas' sirve para entender qué no funcionó y presentar una nueva versión ajustada a tu retroalimentación.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Cómo se aseguran de que el proyecto final cumpla lo prometido?",
+      "answer": "Lo aseguramos con nuestro proceso. La propuesta inicial define claramente el alcance y los objetivos. Luego, las revisiones colaborativas garantizan que el resultado final se alinee con lo que acordamos y esperas.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "En el lanzamiento, ¿ustedes se encargan de todo lo técnico?",
+      "answer": "Sí. En el caso de un proyecto web, por ejemplo, nos encargamos de la configuración final en tu dominio y de todos los aspectos técnicos para que el lanzamiento sea fluido y exitoso.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿El 'asesoramiento' post-lanzamiento tiene un costo extra?",
+      "answer": "El asesoramiento inicial y el monitoreo de resultados forman parte del cierre de nuestro proceso. Si después necesitas consultoría continua o nuevos proyectos, te presentaríamos una nueva propuesta de trabajo.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "Si no tengo tiempo para revisiones, ¿pueden avanzar sin mí?",
+      "answer": "Preferimos no hacerlo. Las revisiones colaborativas son cruciales para garantizar tu satisfacción. Podemos ser flexibles con los tiempos, pero tu aprobación en las etapas clave es fundamental para el éxito del proyecto.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Qué entregables recibo al final del proceso?",
+      "answer": "Depende del proyecto. Puede ser un manual de marca, los archivos de un diseño, un sitio web completamente funcional o los videos finales. Siempre se especifica en la propuesta inicial qué recibirás.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿El proceso es presencial o puede ser 100% remoto?",
+      "answer": "Nuestro proceso está diseñado para ser 100% remoto y eficiente, lo que nos permite trabajar con clientes de cualquier parte. Utilizamos herramientas digitales para la comunicación y las revisiones colaborativas.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "Para la 'conceptualización', ¿puedo aportar mis propias ideas?",
+      "answer": "¡Por supuesto! Fomentamos la colaboración. Tus ideas son un insumo valiosísimo en la fase de conceptualización. Nuestro trabajo es tomar esa visión, enriquecerla con nuestra experiencia y transformarla en un concepto sólido.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "Si tengo una urgencia, ¿pueden acortar el proceso?",
+      "answer": "Entendemos las urgencias. Dependiendo de nuestra carga de trabajo, podríamos evaluar un plan de 'entrega exprés' por un costo adicional. Tendríamos que analizar la viabilidad de acortar los plazos sin comprometer la calidad.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Por qué es tan importante la primera fase de 'descubrimiento'?",
+      "answer": "Porque es el cimiento de todo el proyecto. Un mal entendimiento de tus objetivos en esta fase inicial puede llevar a un resultado final que no cumple tus expectativas. Por eso le dedicamos tiempo y atención.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Cómo manejan los desacuerdos creativos durante las revisiones?",
+      "answer": "Con diálogo y estrategia. Si hay un desacuerdo, no imponemos nuestra visión. Argumentamos nuestras decisiones desde un punto de vista estratégico y escuchamos tus preocupaciones para encontrar una solución que sea creativamente excelente y cumpla el objetivo.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿La 'planificación' incluye un cronograma?",
+      "answer": "Sí, una parte fundamental de la fase de 'diseño de propuesta y planificación' es la creación de un cronograma detallado. En él, verás los plazos para cada etapa del proyecto y las fechas de entrega.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Qué pasa si me retraso en dar feedback durante una revisión?",
+      "answer": "Entendemos que pueden surgir imprevistos. Un retraso en tu feedback podría afectar la fecha de entrega final. Te pedimos mantener una comunicación abierta para ajustar el cronograma si es necesario.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "En la 'ejecución', ¿trabaja una sola persona en mi proyecto?",
+      "answer": "No, trabaja un equipo multidisciplinario. Dependiendo del proyecto, pueden intervenir directores de arte, diseñadores, desarrolladores o estrategas, todos colaborando para lograr el mejor resultado.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Qué tan detallado es su formulario de onboarding?",
+      "answer": "Es lo suficientemente detallado para darnos toda la información clave sin ser abrumador. Preguntamos sobre tu marca, objetivos, audiencia y referencias para tener una base sólida sobre la cual empezar a conceptualizar.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "Suena a que su proceso es muy organizado.",
+      "answer": "Sí, lo es. Creemos que un proceso claro y organizado es la clave para la creatividad. Elimina la incertidumbre y nos permite a todos (cliente y agencia) enfocarnos en lo que importa: crear un trabajo excepcional.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "Al final del proceso, ¿hacen una reunión de cierre?",
+      "answer": "Sí, la fase de 'lanzamiento y asesoramiento' usualmente incluye una comunicación de cierre para entregar formalmente el proyecto, resolver últimas dudas y celebrar el trabajo realizado. Es el broche de oro de nuestra colaboración.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Proceso de Trabajo"
+    },
+    {
+      "question": "¿Qué servicios de Producción Audiovisual tienen?",
+      "answer": "Ofrecemos videos cinemáticos, efectos visuales (VFX) con inteligencia artificial, cobertura profesional de eventos y activaciones de marca, además de Reels para redes sociales y videos testimoniales que inspiran confianza.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Hacen videos para empresas?",
+      "answer": "Sí, creamos videos corporativos y cinemáticos de alto impacto. Nuestro objetivo es contar historias que emocionan y conectan, presentando tu empresa de una manera profesional y memorable.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Qué es eso de 'VFX con Inteligencia Artificial'?",
+      "answer": "Es uno de nuestros diferenciadores. Integramos tecnología de vanguardia como la inteligencia artificial para crear efectos visuales (VFX) innovadores, llevando nuestras producciones a otro nivel de creatividad y calidad.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "Si tengo un evento, ¿pueden grabarlo?",
+      "answer": "Sí, ofrecemos el servicio de cobertura profesional de eventos y activaciones de marca. Capturamos los mejores momentos para que tengas material de alta calidad para tus comunicaciones y marketing.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Crean contenido para redes sociales como Reels?",
+      "answer": "Sí, es una de nuestras especialidades. Producimos Reels y contenido atractivo para redes sociales. Además, podemos integrar estas producciones dentro de estrategias de anuncios (ADS) para maximizar su alcance.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Producen videos de testimonios de clientes?",
+      "answer": "Sí, creamos videos testimoniales. Son una herramienta muy poderosa para tu marca, ya que inspiran confianza en clientes potenciales y ayudan a convertir el interés en ventas de manera muy efectiva.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Sus videos tienen calidad de cine?",
+      "answer": "Buscamos un acabado cinematográfico en nuestras producciones. Cuidamos la fotografía, el sonido, el montaje y el color para que el resultado final sea de alto impacto visual y narrativo.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Para qué sirve un video corporativo?",
+      "answer": "Sirve para presentar la historia, los valores y la visión de tu empresa de una manera potente y profesional. Es una carta de presentación que genera confianza y te diferencia de la competencia.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Necesito un guion para mi video?",
+      "answer": "No necesariamente. Nuestro proceso de producción incluye la conceptualización y, si es necesario, la creación del guion. Trabajamos contigo para definir el mensaje y la historia que queremos contar.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Los efectos visuales con IA son muy caros?",
+      "answer": "El costo depende de la complejidad. Sin embargo, el uso de IA nos permite optimizar procesos, lo que puede hacer que la integración de VFX innovadores sea más accesible de lo que imaginas. Lo cotizamos por proyecto.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "Para la cobertura de un evento, ¿qué entregan?",
+      "answer": "Entregamos un video resumen ('highlight reel') con los mejores momentos, y si lo requieres, también podemos entregar material adicional como entrevistas, clips para redes sociales o fotografías del evento.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Por qué son importantes los Reels hoy en día?",
+      "answer": "Porque son un formato de video corto y dinámico que tiene un alcance orgánico muy alto en plataformas como Instagram. Son ideales para captar la atención rápidamente y conectar con audiencias más jóvenes.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Cómo hacen que un video testimonial se vea genuino?",
+      "answer": "Nos enfocamos en la naturalidad. Creamos un ambiente cómodo para la persona que da su testimonio y hacemos preguntas guía que permitan contar su experiencia de una forma auténtica y creíble, no como un actor.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "Además de video, ¿hacen fotografía?",
+      "answer": "Sí. Aunque nuestro enfoque principal en esta área es la producción de video, nuestro equipo también cuenta con la capacidad de realizar fotografía profesional como complemento a nuestros servicios audiovisuales.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Pueden hacer un video animado?",
+      "answer": "Sí. La animación o 'motion graphics' es parte del diseño gráfico y la producción audiovisual. Podemos crear videos animados explicativos o piezas gráficas en movimiento para comunicar ideas de forma clara y atractiva.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿El servicio de Reels incluye la estrategia de publicación?",
+      "answer": "La producción del Reel es un servicio. La 'estrategia de contenido y marketing en redes sociales' es otro de nuestros servicios, donde definimos cuándo y cómo publicar para obtener los mejores resultados.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Qué tan largo debe ser un video corporativo?",
+      "answer": "Depende del objetivo y la plataforma. Generalmente, recomendamos entre 1 y 3 minutos para mantener la atención. Podemos crear una versión larga y varias versiones cortas para diferentes usos.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Su equipo de video viaja a otras ciudades?",
+      "answer": "Sí, nuestro equipo de producción tiene la capacidad de desplazarse a diferentes locaciones dentro y fuera del país, según los requerimientos del proyecto. Los costos de viáticos se cotizan por separado.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Cómo es la calidad del audio en sus videos?",
+      "answer": "La calidad del audio es tan importante como la del video. Utilizamos equipo de grabación de audio profesional y técnicas de post-producción para asegurar que el sonido sea claro, nítido y envolvente.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "En su proyecto 'Campaña Éter', ¿qué hicieron?",
+      "answer": "En ese proyecto, nos encargamos de la Dirección Creativa y la producción de un Film Publicitario. El resultado fue exitoso, con más de 2 millones de visualizaciones y un aumento del 45% en consultas.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Qué equipo usan para grabar?",
+      "answer": "Utilizamos equipo profesional de alta gama, incluyendo cámaras de cine digital, lentes de calidad, drones, estabilizadores y equipo de iluminación para asegurar la mejor calidad visual posible en cada toma.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Pueden añadir música a mis videos?",
+      "answer": "Sí, la musicalización es una parte clave de la post-producción. Utilizamos librerías de música con licencia comercial para encontrar la pieza perfecta que se ajuste al tono y la emoción de tu video.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "Si quiero un video, ¿el precio depende de la duración?",
+      "answer": "El precio depende de varios factores, no solo la duración. Influye la complejidad de la producción, el número de locaciones, el equipo necesario, y si requiere VFX o animación. Cada proyecto es una cotización a medida.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Pueden hacer videos para usar en publicidad de TV?",
+      "answer": "Sí, tenemos la capacidad de producir comerciales y spots publicitarios que cumplen con los estándares técnicos y de calidad requeridos para su transmisión en televisión y otros medios masivos.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Qué es la 'activación de marca' que mencionan?",
+      "answer": "Una activación de marca es un evento o experiencia diseñada para que el público interactúe directamente con la marca. Nuestro servicio de cobertura audiovisual captura la energía de estas activaciones para amplificar su impacto.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Hacen videos en formato vertical?",
+      "answer": "Sí, por supuesto. Producimos contenido audiovisual en el formato que se necesite, ya sea horizontal para YouTube o cine, o vertical para historias de Instagram, Reels y TikTok.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "Para un video testimonial, ¿vienen a mi oficina a grabar?",
+      "answer": "Sí, podemos desplazarnos a tu oficina o a la locación que sea más conveniente para grabar los testimonios. Nos adaptamos para facilitar el proceso y obtener el mejor resultado posible.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Qué tan creativos pueden ser con un video corporativo?",
+      "answer": "Tanto como el proyecto lo permita. Nuestra filosofía es trascender lo convencional. Podemos proponer conceptos creativos, narrativas no lineales o estilos visuales únicos para que tu video corporativo no sea aburrido.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Puedo aparecer yo en el video de mi empresa?",
+      "answer": "Claro que sí. De hecho, que el fundador o el equipo aparezcan en el video puede generar mucha más confianza y cercanía con la audiencia. Nosotros te dirigimos para que te sientas cómodo frente a la cámara.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Qué es la 'post-producción' de un video?",
+      "answer": "Es la fase de edición. Incluye el montaje de las escenas, la corrección de color, el diseño de sonido, la musicalización y la integración de gráficos o efectos visuales. Es donde la magia realmente sucede.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Hacen transmisiones en vivo (live streaming)?",
+      "answer": "La cobertura de eventos puede incluir la transmisión en vivo como parte del servicio. Utilizamos equipo profesional para asegurar una transmisión estable y de alta calidad a través de tus plataformas digitales.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "El contenido para redes, ¿es solo video o también fotos?",
+      "answer": "Nuestro fuerte es el video, pero el servicio de 'Reels y contenido atractivo' puede incluir la creación de piezas gráficas en movimiento, cinemagraphs o incluso sesiones de fotografía pensadas para redes sociales.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "Si no me gusta el video final, ¿hay revisiones?",
+      "answer": "Sí. Nuestro proceso de producción audiovisual, al igual que los demás, incluye rondas de revisión. Te presentamos un primer corte del video para que nos des tu feedback antes de entregar la versión final.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Por qué es mejor un video profesional que uno hecho con mi celular?",
+      "answer": "Por la calidad y la estrategia. Un video profesional cuida la iluminación, el sonido y la narrativa para proyectar una imagen de excelencia. Refleja la calidad de tu marca de una manera que un celular no puede.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Qué son las 'estrategias ADS' que mencionan con los Reels?",
+      "answer": "Significa que no solo creamos el Reel, sino que también podemos diseñar y gestionar una campaña de publicidad pagada (Ads) para que ese video llegue a miles de personas de tu público objetivo.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Producción Audiovisual"
+    },
+    {
+      "question": "¿Qué incluyen sus servicios de Estrategias Digitales?",
+      "answer": "Nuestras estrategias incluyen campañas de publicidad digital como SEM y Social Ads, marketing de contenidos para redes sociales, optimización avanzada para motores de búsqueda (SEO), y el análisis de métricas para garantizar resultados.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Manejan campañas de publicidad en Google?",
+      "answer": "Sí, ofrecemos la gestión de campañas de publicidad digital, lo que incluye SEM (Search Engine Marketing) y PPC (Pay-Per-Click) en plataformas como Google Ads para capturar la demanda existente de tus servicios.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Hacen publicidad en Facebook e Instagram?",
+      "answer": "Sí, las campañas de Social Ads son una de nuestras especialidades. Diseñamos y gestionamos anuncios en plataformas como Facebook e Instagram para alcanzar a tu audiencia objetivo donde pasan más tiempo.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Qué es el 'Marketing de Contenidos'?",
+      "answer": "Es crear y distribuir contenido valioso (como artículos de blog, videos o guías) para atraer y retener a una audiencia. El objetivo es posicionar tu marca como una autoridad y generar confianza.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Qué es el SEO y por qué es 'avanzado'?",
+      "answer": "SEO es optimizar tu sitio para que aparezca en los primeros lugares de Google. Lo llamamos 'avanzado' porque no solo cubrimos lo básico, sino que profundizamos en aspectos técnicos, estratégicos y de contenido.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Me pueden ayudar con una estrategia de email marketing?",
+      "answer": "Sí. Diseñamos estrategias de email marketing, automatización y 'lead nurturing'. Esto consiste en enviar secuencias de correos para cultivar la relación con tus prospectos y guiarlos hacia la compra.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Cómo miden el éxito de sus estrategias digitales?",
+      "answer": "A través del análisis de métricas, reporting y optimización continua. Definimos KPIs (Indicadores Clave de Rendimiento) claros desde el inicio y te entregamos reportes periódicos para mostrarte los resultados tangibles.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Qué significa 'amplificar tu mensaje'?",
+      "answer": "Significa que no basta con tener un buen mensaje, hay que hacerlo llegar a las personas correctas. Usamos la publicidad y el contenido para que tu voz se escuche por encima del ruido digital.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "Si contrato una campaña, ¿ustedes hacen los anuncios?",
+      "answer": "Sí, nuestro servicio es integral. Incluye la estrategia, la creación de los textos (copywriting) y la dirección de arte para los visuales del anuncio, asegurando una campaña coherente y efectiva.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Cuánto debo invertir en publicidad digital?",
+      "answer": "La inversión depende de tus objetivos y del nivel de competencia. Podemos empezar con presupuestos controlados para validar la estrategia e ir escalando la inversión a medida que vemos un retorno positivo.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿La estrategia de redes sociales incluye publicar todos los días?",
+      "answer": "No necesariamente. La clave es la calidad y la consistencia, no la cantidad. Desarrollamos un calendario de contenidos estratégico que define la frecuencia y el tipo de publicación ideal para tu marca.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Cuánto tiempo tarda en dar resultados el SEO?",
+      "answer": "El SEO es una estrategia a mediano y largo plazo. Los primeros resultados se pueden empezar a ver en 3 a 6 meses. Es una inversión que construye un activo digital sólido y duradero para tu marca.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Qué es 'lead nurturing'?",
+      "answer": "Es el proceso de 'nutrir' o cultivar la relación con los prospectos que aún no están listos para comprar. Se hace a través de contenido de valor y correos automáticos para mantener tu marca presente.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Qué tipo de métricas analizan en sus reportes?",
+      "answer": "Analizamos métricas clave como el alcance, el costo por clic (CPC), la tasa de conversión, el costo por adquisición de cliente (CAC) y el retorno de la inversión publicitaria (ROAS), entre otras.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Ustedes gestionan las comunidades en redes sociales (community management)?",
+      "answer": "Nuestro servicio se enfoca en la 'estrategia de contenido y marketing'. La gestión diaria de la comunidad (responder comentarios y mensajes) se puede incluir como parte de un paquete de servicio integral.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "Para la publicidad, ¿ustedes segmentan al público?",
+      "answer": "Sí, la segmentación es clave. Investigamos y definimos a tu público objetivo (buyer persona) para dirigir los anuncios solo a las personas con más probabilidades de estar interesadas en tu servicio.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Pueden ayudarme a crear un blog para mi empresa?",
+      "answer": "Sí, la creación de un blog es una táctica fundamental dentro de una estrategia de marketing de contenidos y SEO. Podemos ayudarte tanto en el diseño y desarrollo del blog como en la redacción de los artículos.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Qué es la 'optimización continua' que mencionan?",
+      "answer": "Significa que no solo lanzamos una campaña y la dejamos correr. La monitoreamos constantemente y hacemos ajustes en tiempo real (en anuncios, segmentación, etc.) para mejorar el rendimiento y maximizar tu inversión.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Necesito tener una página web para hacer publicidad?",
+      "answer": "Es altamente recomendable. La página web o landing page es el destino a donde envías a la gente que hace clic en tus anuncios. Es la herramienta clave para convertir ese interés en un contacto o una venta.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Qué es SEM y qué es PPC?",
+      "answer": "SEM (Search Engine Marketing) es el marketing en buscadores en general. PPC (Pay-Per-Click) es un modelo de publicidad dentro del SEM donde solo pagas cuando alguien hace clic en tu anuncio. Gestionamos ambos.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "Si mi negocio es local, ¿pueden dirigir la publicidad solo a mi ciudad?",
+      "answer": "Sí, por supuesto. Las plataformas publicitarias permiten una segmentación geográfica muy precisa. Podemos dirigir tus anuncios para que solo se muestren a personas en tu ciudad, colonia o incluso a pocos kilómetros a la redonda.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Qué herramientas usan para la automatización de marketing?",
+      "answer": "Utilizamos diversas plataformas líderes en el mercado para la automatización de email marketing y lead nurturing. La elección de la herramienta depende de las necesidades específicas y el presupuesto de cada cliente.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Cada cuánto tiempo recibiré un reporte de resultados?",
+      "answer": "La frecuencia de los reportes se acuerda con el cliente, pero típicamente se entregan de manera mensual. Estos informes incluyen un análisis claro de los resultados y nuestras recomendaciones para el siguiente período.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Cuál es la diferencia entre su SEO y el que ofrecen otros?",
+      "answer": "Nuestro enfoque es integral y estratégico. El SEO 'avanzado' implica no solo optimizar palabras clave, sino también mejorar la velocidad del sitio, la experiencia de usuario y crear una estrategia de contenido que genere autoridad.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "Para mi campaña, ¿puedo usar los videos que ustedes producen?",
+      "answer": "¡Claro! De hecho, es lo ideal. Nuestras estrategias digitales se potencian enormemente cuando utilizamos contenido audiovisual de alta calidad producido por nuestro propio equipo. Los servicios se integran perfectamente.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "En redes sociales, ¿qué es más importante, el texto o la imagen?",
+      "answer": "Ambos son cruciales y deben trabajar en conjunto. Una imagen o video potente captura la atención, pero un buen texto (copy) es el que persuade y lleva al usuario a realizar la acción que deseamos.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Hacen publicidad en otras plataformas además de Google y Facebook?",
+      "answer": "Sí. Aunque Google y Meta (Facebook/Instagram) son las más comunes, también podemos gestionar campañas en otras plataformas como LinkedIn, TikTok, o Twitter, dependiendo de dónde se encuentre tu público objetivo.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Qué es el ROAS y por qué es importante?",
+      "answer": "ROAS significa Retorno de la Inversión Publicitaria (Return On Ad Spend). Es una métrica crucial que nos dice cuántos pesos generamos en ventas por cada peso que invertimos en publicidad. Buscamos siempre un ROAS positivo.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "Si mi campaña no funciona, ¿qué hacen?",
+      "answer": "La 'optimización continua' es la respuesta. Si una campaña no da los resultados esperados, analizamos los datos para entender por qué y realizamos ajustes estratégicos en la segmentación, los anuncios o la landing page hasta mejorar el rendimiento.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿La estrategia de contenidos es solo para redes sociales?",
+      "answer": "No, es mucho más amplia. Puede incluir artículos para un blog, guías descargables, infografías, newsletters por correo electrónico y videos para YouTube. Se trata de crear valor en todos los canales.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿El servicio de SEO incluye la redacción de artículos?",
+      "answer": "El SEO técnico no lo incluye, pero una estrategia de SEO de contenidos, sí. La creación regular de artículos optimizados para palabras clave es fundamental para posicionar un sitio a largo plazo.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Cómo definen el presupuesto para una campaña?",
+      "answer": "Lo definimos en conjunto contigo, basándonos en tus objetivos de negocio y un análisis de la competencia. En nuestra propuesta para el 'Paquete Despegue', por ejemplo, sugerimos un presupuesto inicial para validar el modelo.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Pueden garantizarme ventas con sus estrategias?",
+      "answer": "No podemos garantizar un número específico de ventas, ya que depende de muchos factores. Lo que sí garantizamos es un proceso estratégico, profesional y optimizado para darte las mayores probabilidades de éxito.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "¿Qué tan personalizados son los reportes de métricas?",
+      "answer": "Son muy claros y personalizados. No solo te mostramos los números, sino que te explicamos qué significan en el contexto de tus objetivos de negocio y cuáles son los siguientes pasos recomendados.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    },
+    {
+      "question": "Para email marketing, ¿ustedes diseñan los correos?",
+      "answer": "Sí, el servicio incluye tanto la estrategia de la secuencia como el diseño y la redacción (copywriting) de los correos para que sean atractivos, persuasivos y alineados con tu identidad de marca.",
+      "type": "Help",
+      "deep": 2,
+      "category": "Servicios de Estrategias Digitales"
+    }
+  ]
+}

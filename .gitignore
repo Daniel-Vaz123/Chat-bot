@@ -1,0 +1,28 @@
+# ==========================================
+# Carpetas de compilación de .NET
+# ==========================================
+bin/
+obj/
+
+# ==========================================
+# Archivos de configuración locales y secretos
+# ==========================================
+# Ignora las configuraciones que puedan tener contraseñas
+appsettings.Development.json
+appsettings.Production.json
+*.env
+
+# ==========================================
+# Archivos ocultos y temporales de tu editor (Visual Studio / VS Code)
+# ==========================================
+.vs/
+.vscode/
+*.user
+*.suo
+*.dbmdl
+
+# ==========================================
+# Archivos temporales del Sistema Operativo
+# ==========================================
+.DS_Store
+Thumbs.db
