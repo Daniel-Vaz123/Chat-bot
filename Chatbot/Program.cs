@@ -1,9 +1,14 @@
 ﻿using Amazon.S3Vectors;
 using Amazon.Runtime;
 using Amazon.Extensions.NETCore.Setup;
+using Chatbot.BackgroundServices;
 using Chatbot.Models;
+using Chatbot.Resources;
 using Chatbot.Services;
+using Chatbot.Services.Gym;
+using Chatbot.Services.Gym.Handlers;
 using Chatbot.Extensions;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -86,6 +91,38 @@ builder.Services.AddTransient(sp =>
 
 builder.Services.AddTransient<ChatbotService>();
 builder.Services.AddTransient<EmbeddingDebugHelper>();
+
+// ── Módulo Gym Chatbot ────────────────────────────────────────────────────
+builder.Services.AddMemoryCache();
+
+// Recursos de notificación (singleton — carga templates al inicio)
+builder.Services.AddSingleton<INotificationResources, NotificationResources>();
+
+// Repositorio de perfiles (singleton — ConcurrentDictionary en memoria)
+builder.Services.AddSingleton<IGymUserProfileRepository, GymUserProfileRepository>();
+
+// Motor de estados y router (scoped — un scope por request/mensaje)
+builder.Services.AddScoped<IGymStateEngine, GymStateEngine>();
+builder.Services.AddScoped<IGymConversationRouter, GymConversationRouter>();
+
+// Handlers de intención — registrados como IIntentHandler para inyección en GymStateEngine
+// Escenario 1: Propósito de Año Nuevo
+builder.Services.AddScoped<IIntentHandler, PropositoAnoNuevoTofuHandler>();
+builder.Services.AddScoped<IIntentHandler, PropositoAnoNuevoMofuHandler>();
+builder.Services.AddScoped<IIntentHandler, PropositoAnoNuevoBofuHandler>();
+// Escenario 2: Atleta Estancado
+builder.Services.AddScoped<IIntentHandler, AtletaEstancadoTofuHandler>();
+builder.Services.AddScoped<IIntentHandler, AtletaEstancadoMofuHandler>();
+builder.Services.AddScoped<IIntentHandler, AtletaEstancadoBofuHandler>();
+// Escenario 3: Desertor
+builder.Services.AddScoped<IIntentHandler, DesertorTofuHandler>();
+builder.Services.AddScoped<IIntentHandler, DesertorMofuHandler>();
+builder.Services.AddScoped<IIntentHandler, DesertorBofuHandler>();
+
+// Trigger service y background service
+builder.Services.AddScoped<IGymTriggerService, GymTriggerService>();
+builder.Services.AddHostedService<GymTriggerBackgroundService>();
+// ─────────────────────────────────────────────────────────────────────────
 
 // Registrar helper multimodal
 builder.Services.AddTransient(sp =>
