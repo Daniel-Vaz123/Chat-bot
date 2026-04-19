@@ -247,7 +247,7 @@ public class ChatbotService
                 var meta = vector.Metadata.AsDictionary();
                 result.Matches.Add(new VectorMatch
                 {
-                    Distance = (double)(vector.Distance ?? 0),
+                    Distance = (double)vector.Distance,
                     Description = meta["description"].AsString(),
                     Category = meta["category"].AsString(),
                     ImageUrl = meta["imageUrl"].AsString(),
@@ -299,7 +299,7 @@ public class ChatbotService
             var meta = vector.Metadata.AsDictionary();
             result.Matches.Add(new VectorMatch
             {
-                Distance = (double)(vector.Distance ?? 0),
+                Distance = (double)vector.Distance,
                 Description = meta["description"].AsString(),
                 Category = meta["category"].AsString(),
                 ImageUrl = meta["imageUrl"].AsString(),

@@ -26,3 +26,7 @@ appsettings.Production.json
 # ==========================================
 .DS_Store
 Thumbs.db
+
+# Ignorar configuraciones locales con contraseñas
+appsettings.json
+appsettings.Development.json

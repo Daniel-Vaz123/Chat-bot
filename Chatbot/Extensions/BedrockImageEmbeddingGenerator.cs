@@ -57,6 +57,9 @@ public sealed class BedrockImageEmbeddingGenerator : IEmbeddingGenerator<string,
         return serviceKey is null && serviceType.IsInstanceOfType(this) ? this : null;
     }
 
+    public TService? GetService<TService>(object? key = null) where TService : class
+        => this as TService;
+
     private async Task<Embedding<float>> GenerateSingleEmbeddingAsync(
         string input,
         CancellationToken cancellationToken)
