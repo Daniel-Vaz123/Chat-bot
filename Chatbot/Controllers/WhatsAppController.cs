@@ -2,7 +2,7 @@ using Chatbot.Models;
 using Chatbot.Services;
 using Chatbot.Services.Gym;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Chatbot.Controllers;
 
@@ -17,23 +17,28 @@ public sealed class WhatsAppController : ControllerBase
     private const string AudioFallback = "[audio no reconocido]";
     private const string TwimlEmptyResponse = "<Response/>";
 
-    private readonly IGymConversationRouter _router;
+    private readonly ChatbotService _chatbotService;
     private readonly IChannelAdapter _channelAdapter;
     private readonly IAudioTranscriptionService _transcriptionService;
-    private readonly TwilioSettings _twilioSettings;
+    private readonly INotificationResources _notificationResources;
+    private readonly IMemoryCache _memoryCache;
     private readonly ILogger<WhatsAppController> _logger;
 
+    private const string CacheKeyWelcomePrefix = "whatsapp_welcome_sent:";
+
     public WhatsAppController(
-        IGymConversationRouter router,
+        ChatbotService chatbotService,
         IChannelAdapter channelAdapter,
         IAudioTranscriptionService transcriptionService,
-        IOptions<TwilioSettings> twilioSettings,
+        INotificationResources notificationResources,
+        IMemoryCache memoryCache,
         ILogger<WhatsAppController> logger)
     {
-        _router = router;
+        _chatbotService = chatbotService;
         _channelAdapter = channelAdapter;
         _transcriptionService = transcriptionService;
-        _twilioSettings = twilioSettings.Value;
+        _notificationResources = notificationResources;
+        _memoryCache = memoryCache;
         _logger = logger;
     }
 
@@ -42,8 +47,8 @@ public sealed class WhatsAppController : ControllerBase
     /// Acepta application/x-www-form-urlencoded.
     /// </summary>
     [HttpPost]
-    [Consumes("application/x-www-form-urlencoded")]
-    public async Task<IActionResult> ReceiveWebhook([FromForm] TwilioWebhookPayload payload)
+    [Consumes("application/json")]
+    public async Task<IActionResult> ReceiveWebhook([FromBody] BridgeWebhookPayload payload)
     {
         // Validar que el campo From no esté vacío
         if (string.IsNullOrWhiteSpace(payload.From))
@@ -53,74 +58,121 @@ public sealed class WhatsAppController : ControllerBase
         }
 
         var userId = payload.From;
-        var isAudio = payload.NumMedia > 0 &&
-                      !string.IsNullOrEmpty(payload.MediaContentType0) &&
-                      payload.MediaContentType0.StartsWith("audio/", StringComparison.OrdinalIgnoreCase);
+        var isAudio = payload.IsAudio;
 
         _logger.LogInformation(
-            "Webhook recibido. UserId: {UserId}, Tipo: {MessageType}",
+            "Webhook recibido de Node Bridge. UserId: {UserId}, Tipo: {MessageType}",
             userId, isAudio ? "audio" : "texto");
 
         try
         {
-            // Resolver el texto del mensaje (directo o transcrito)
-            var resolvedText = await ResolveMessageTextAsync(payload, userId, isAudio);
+            // OBTENER EL TEXTO FINAL A PROCESAR (Audio o Texto)
+            var textToProcess = await ResolveMessageTextAsync(payload, userId, isAudio);
 
-            // Enrutar al motor de conversación
-            var botResponse = await _router.RouteMessageAsync(userId, resolvedText);
+            if (ShouldSendOpeningMessage(userId, textToProcess))
+            {
+                var opening = _notificationResources.GetWhatsAppOpeningMessage();
+                await _channelAdapter.SendMessageAsync(userId, opening);
+                _memoryCache.Set(
+                    CacheKeyWelcomePrefix + userId,
+                    true,
+                    new MemoryCacheEntryOptions { SlidingExpiration = TimeSpan.FromDays(7) });
+                return TwimlOk();
+            }
 
-            // Enviar la respuesta al usuario vía Twilio
-            try
+            // PASAR DIRECTO A LA INTELIGENCIA (Búsqueda Vectorial S3 + DeepSeek API)
+            var aiResponse = await _chatbotService.AskQuestionAsync(textToProcess);
+
+            if (string.IsNullOrWhiteSpace(aiResponse))
             {
-                await _channelAdapter.SendMessageAsync(userId, botResponse.Message);
+                aiResponse = "No pude generar una respuesta. Intenta de nuevo o reformula la pregunta.";
             }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex,
-                    "Error al enviar respuesta a {UserId} vía Twilio.", userId);
-            }
+
+            // RESPONDER
+            await _channelAdapter.SendMessageAsync(userId, aiResponse);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex,
                 "Error no controlado procesando webhook para {UserId}.", userId);
+            try
+            {
+                await _channelAdapter.SendMessageAsync(
+                    userId,
+                    "Tuve un problema al procesar tu mensaje. Revisa que el backend esté corriendo y vuelve a intentar. Si sigue fallando, avísale al administrador.");
+            }
+            catch (Exception sendEx)
+            {
+                _logger.LogError(sendEx, "No se pudo enviar mensaje de error al usuario {UserId}.", userId);
+            }
         }
 
         // Siempre retornar HTTP 200 con TwiML vacío para evitar reintentos de Twilio
         return TwimlOk();
     }
 
+    /// <summary>
+    /// Saludo vacío o palabras tipo hola/menú: saludo + temas frecuentes (sin RAG).
+    /// Si ya enviamos ese bloque recientemente, un nuevo "hola" pasa a RAG.
+    /// </summary>
+    private bool ShouldSendOpeningMessage(string userId, string text)
+    {
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            return true;
+        }
+
+        var t = text.Trim().ToLowerInvariant();
+
+        if (!IsMenuOrGreetingTrigger(t))
+        {
+            return false;
+        }
+
+        // Evita repetir el mismo texto largo si vuelve a saludar en pocos días
+        return !_memoryCache.TryGetValue(CacheKeyWelcomePrefix + userId, out _);
+    }
+
+    private static bool IsMenuOrGreetingTrigger(string normalizedLower)
+    {
+        string[] exact = ["hola", "holaa", "holas", "hey", "hi", "hello", "saludos", "buenos", "buenas",
+            "menu", "menú", "inicio", "ayuda", "info", "información", "informacion", "gracias", "ok", "vale"];
+
+        if (exact.Contains(normalizedLower))
+        {
+            return true;
+        }
+
+        string[] prefixes =
+        [
+            "hola ", "hola,", "hola!", "buenos ", "buenas ", "qué tal", "que tal", "buen día", "buen dia",
+            "buenas tardes", "buenas noches", "buen día", "menu ", "menú ", "ayuda "
+        ];
+
+        foreach (var p in prefixes)
+        {
+            if (normalizedLower.StartsWith(p, StringComparison.Ordinal))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     private async Task<string> ResolveMessageTextAsync(
-        TwilioWebhookPayload payload, string userId, bool isAudio)
+        BridgeWebhookPayload payload, string userId, bool isAudio)
     {
         if (!isAudio)
         {
             return payload.Body ?? string.Empty;
         }
 
-        // Mensaje de audio: transcribir con Vosk
-        try
-        {
-            var transcribed = await _transcriptionService.TranscribeAsync(
-                audioUrl: payload.MediaUrl0!,
-                authUser: _twilioSettings.AccountSid,
-                authPassword: _twilioSettings.AuthToken);
-
-            if (string.IsNullOrWhiteSpace(transcribed))
-            {
-                _logger.LogInformation(
-                    "Transcripción vacía para {UserId}. Usando fallback.", userId);
-                return AudioFallback;
-            }
-
-            return transcribed;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex,
-                "Error al transcribir audio para {UserId}. Usando fallback.", userId);
-            return AudioFallback;
-        }
+        // Para el puente Node, el audio llegaría diferido o en Base64.
+        // Por simplicidad temporal, como es proyecto local usando Node.js 
+        // pasamos el mensaje que haya podido llegar como fallback
+        
+        return AudioFallback;
     }
 
     /// <summary>Retorna HTTP 200 con un body TwiML vacío.</summary>

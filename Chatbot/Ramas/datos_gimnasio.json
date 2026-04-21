@@ -1,0 +1,137 @@
+{
+  "id": "gimnasio-rag-v1",
+  "name": "GimnasioBot",
+  "speciality": "Atención y soporte informativo para gimnasio",
+  "description": "Base de conocimiento para responder preguntas frecuentes de clientes y prospectos del gimnasio.",
+  "endSessionMessage": "La sesión ha finalizado. Gracias por contactarnos.",
+  "unknownMessage": "No encontré esa información en la base actual. Si quieres, te ayudo con horarios, costos, reglas o servicios.",
+  "byeMessage": "Gracias por escribirnos. ¡Te esperamos en el gimnasio!",
+  "qa_pairs": [
+    {
+      "question": "Cuáles son los horarios del gimnasio",
+      "answer": "Abrimos de lunes a viernes de 5:00 AM a 11:00 PM. Los sábados de 7:00 AM a 5:00 PM y los domingos de 8:00 AM a 2:00 PM. En días festivos oficiales abrimos medio turno de 8:00 AM a 2:00 PM.",
+      "type": "horarios",
+      "deep": 2,
+      "category": "general"
+    },
+    {
+      "question": "Ayúdame con los horarios o a qué hora abren",
+      "answer": "Abrimos de lunes a viernes de 5:00 AM a 11:00 PM. Los sábados de 7:00 AM a 5:00 PM y los domingos de 8:00 AM a 2:00 PM. En días festivos oficiales abrimos medio turno de 8:00 AM a 2:00 PM.",
+      "type": "horarios",
+      "deep": 2,
+      "category": "general"
+    },
+    {
+      "question": "Cuánto cuesta la mensualidad o suscripción",
+      "answer": "La mensualidad básica cuesta $499 MXN e incluye acceso al área de pesas y cardiovascular. La membresía Black cuesta $699 MXN al mes e incluye acceso a todas nuestras sucursales, sillones de masaje, clases grupales ilimitadas y puedes llevar un invitado los fines de semana.",
+      "type": "precios",
+      "deep": 2,
+      "category": "ventas"
+    },
+    {
+      "question": "Cuál es el costo de la inscripción y el mantenimiento anual",
+      "answer": "La inscripción tiene un costo único de $300 MXN en cualquier plan, pero frecuentemente tenemos promociones donde es gratis. Existe un cobro de mantenimiento anual de $450 MXN que se cobra el tercer mes de tu membresía para renovar equipos.",
+      "type": "precios",
+      "deep": 2,
+      "category": "ventas"
+    },
+    {
+      "question": "Tienen entrenadores personalizados o rutinas",
+      "answer": "Sí, nuestros entrenadores de piso te organizan una rutina básica sin costo adicional. Si deseas un entrenador personal exclusivo toda tu sesión, el costo es de $250 MXN por hora o paquetes de 10 sesiones por $2,000 MXN.",
+      "type": "servicios",
+      "deep": 2,
+      "category": "entrenamiento"
+    },
+    {
+      "question": "Cuáles son las reglas de higiene y equipo del gimnasio",
+      "answer": "1) El uso de toalla facial es obligatorio para limpiar colchonetas y aparatos tras su uso. 2) Debes usar calzado deportivo limpio y ropa deportiva adecuada. 3) Está prohibido usar mezclilla. 4) Es obligatorio descargar las máquinas y guardar las mancuernas en los racks al finalizar.",
+      "type": "reglas",
+      "deep": 2,
+      "category": "general"
+    },
+    {
+      "question": "Cuáles son las reglas de conducta y convivencia",
+      "answer": "Está prohibido amedrentar, faltar al respeto o acosar al personal u otros socios. No se permite gritar de forma escandalosa ni azotar bruscamente el equipo. Evita monopolizar las máquinas y permite rotar series con otras personas.",
+      "type": "reglas",
+      "deep": 2,
+      "category": "general"
+    },
+    {
+      "question": "Se pueden llevar invitados",
+      "answer": "Sí. Con membresía básica el pase de invitado cuesta $100 MXN al día. Si tienes membresía Black, puedes ingresar con un invitado gratis de viernes a domingo.",
+      "type": "pases",
+      "deep": 2,
+      "category": "ventas"
+    },
+    {
+      "question": "Cuentan con servicio de regaderas y lockers",
+      "answer": "Sí, los baños incluyen regaderas con agua caliente, vestidores y lockers de uso diario sin costo extra. El locker es prestado mientras entrenas; si dejas candado fuera de horario, el personal puede retirarlo.",
+      "type": "instalaciones",
+      "deep": 2,
+      "category": "general"
+    },
+    {
+      "question": "Dan clases como zumba, box, yoga o spinning",
+      "answer": "Sí, contamos con salón de usos múltiples. Hay Zumba y Body Combat en la mañana (8:00 AM) y tarde (7:00 PM), spinning intensivo a las 6:00 PM y yoga básico los sábados por la mañana. Todas las clases están incluidas en membresía Black.",
+      "type": "clases",
+      "deep": 2,
+      "category": "entrenamiento"
+    },
+    {
+      "question": "Qué métodos de pago manejan",
+      "answer": "Aceptamos tarjetas de crédito y débito (Visa, Mastercard, Amex), pago en efectivo en mostrador y transferencias SPEI. Recomendamos domiciliar el pago automático para evitar recargos por retraso.",
+      "type": "pagos",
+      "deep": 2,
+      "category": "ventas"
+    },
+    {
+      "question": "Puedo congelar o cancelar mi membresía",
+      "answer": "Puedes cancelar tu membresía en cualquier momento avisando a recepción 15 días antes de tu fecha de cobro para evitar cargos extra. Si te lesionas o vas de viaje, puedes congelar tu cuenta hasta por 2 meses con un cargo administrativo de $100 MXN.",
+      "type": "servicios",
+      "deep": 2,
+      "category": "administrativo"
+    },
+    {
+      "question": "Tienen nutricionista",
+      "answer": "Sí. Contamos con servicio de nutriología deportiva presencial y online. La primera evaluación está incluida en tu inscripción. Las siguientes valoraciones tienen costo preferencial de $250 MXN e incluyen plan enfocado en pérdida de grasa o ganancia muscular.",
+      "type": "servicios",
+      "deep": 2,
+      "category": "salud"
+    },
+    {
+      "question": "Qué pasa si pierdo u olvido mi tarjeta de acceso o código QR",
+      "answer": "En caso de pérdida, la reposición del acceso físico tiene un costo de $100 MXN en administración. Si no lo traes un día, presentando una identificación oficial vigente en mostrador te permitimos ingresar.",
+      "type": "accesos",
+      "deep": 2,
+      "category": "administrativo"
+    },
+    {
+      "question": "A partir de qué edad se puede ingresar al gimnasio",
+      "answer": "La edad mínima es de 14 años cumplidos. Se requiere firma presencial de autorización del padre, madre o tutor al inscribirse. A partir de los 18 años el registro es individual.",
+      "type": "edad_minima",
+      "deep": 2,
+      "category": "general"
+    },
+    {
+      "question": "Cuentan con báscula e InBody",
+      "answer": "Tenemos una báscula genérica de uso gratuito en vestidores. También contamos con equipo InBody para medición de porcentaje de grasa y masa muscular; si compras una consulta nutricional está incluido, de lo contrario el escaneo individual cuesta $100 MXN.",
+      "type": "instalaciones",
+      "deep": 2,
+      "category": "salud"
+    },
+    {
+      "question": "Hola",
+      "answer": "Hola, bienvenido al gimnasio. Puedo ayudarte con horarios, precios, membresías, reglas, clases y servicios.",
+      "type": "saludo",
+      "deep": 1,
+      "category": "general"
+    },
+    {
+      "question": "Quiero información",
+      "answer": "Con gusto. Puedo darte información sobre horarios, costos, inscripción, clases, invitados, reglas, nutrición y métodos de pago.",
+      "type": "saludo",
+      "deep": 1,
+      "category": "general"
+    }
+  ]
+}

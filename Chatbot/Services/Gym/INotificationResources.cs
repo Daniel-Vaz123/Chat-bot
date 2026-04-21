@@ -12,6 +12,11 @@ public interface INotificationResources
     string GetWelcomeMessage();
 
     /// <summary>
+    /// Saludo inicial para WhatsApp + temas frecuentes (antes de RAG).
+    /// </summary>
+    string GetWhatsAppOpeningMessage();
+
+    /// <summary>
     /// Retorna el template de respuesta para una combinación (ScenarioKey, StepKey).
     /// Si variables no es null, reemplaza los placeholders {key} con los valores del diccionario.
     /// Nunca lanza excepción — retorna mensaje de fallback si la clave no está registrada.

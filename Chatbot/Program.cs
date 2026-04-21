@@ -1,4 +1,4 @@
-﻿using Amazon.S3Vectors;
+using Amazon.S3Vectors;
 using Amazon.Extensions.NETCore.Setup;
 using Chatbot.BackgroundServices;
 using Chatbot.Models;
@@ -146,8 +146,20 @@ builder.Services.AddHttpClient();
 // Servicio de transcripción de audio (Singleton — el modelo Vosk se carga una sola vez)
 builder.Services.AddSingleton<IAudioTranscriptionService, VoskTranscriptionService>();
 
-// Adaptador de canal WhatsApp (Scoped — un scope por request)
-builder.Services.AddScoped<IChannelAdapter, TwilioWhatsAppAdapter>();
+// Add HttpClient for the Node bridge (respuestas RAG pueden tardar)
+builder.Services.AddHttpClient<LocalNodeWhatsAppAdapter>(client =>
+{
+    client.Timeout = TimeSpan.FromMinutes(3);
+});
+
+// Añadimos DeepSeek Service
+builder.Services.AddHttpClient<IDeepSeekAiService, DeepSeekAiService>(client =>
+{
+    client.Timeout = TimeSpan.FromMinutes(2);
+});
+
+// Reemplazamos la conexión real (TwilioWhatsAppAdapter) por la del Node Bridge
+builder.Services.AddTransient<IChannelAdapter, LocalNodeWhatsAppAdapter>();
 // ─────────────────────────────────────────────────────────────────────────
 
 // Añadir soporte para controladores MVC (necesario para WhatsAppController)
@@ -197,8 +209,7 @@ while (!exit)
     switch (option)
     {
         case "1":
-            //await LoadQuestionsAsync(chatbotService);
-            await LoadImagesAsync(chatbotService);
+            await LoadQuestionsAsync(chatbotService);
             break;
 
         case "2":
@@ -233,7 +244,14 @@ static async Task LoadQuestionsAsync(ChatbotService chatbotService)
     Console.WriteLine("  CARGA DE PREGUNTAS AL ÍNDICE VECTORIAL");
     Console.WriteLine(new string('═', 50));
     
-    string jsonPath = "Ramas/d170459d-2561-4b7c-a2f3-5edb66afc91b.json";
+    Console.WriteLine(" ¿Cuál es la ruta del archivo JSON que vamos a cargar?");
+    Console.Write(" Ruta [Ramas/datos_gimnasio.json]: ");
+    var inputPath = Console.ReadLine();
+    
+    string jsonPath = string.IsNullOrWhiteSpace(inputPath) 
+        ? "Ramas/datos_gimnasio.json" 
+        : inputPath;
+        
     jsonPath = Path.Combine(Environment.CurrentDirectory, jsonPath);
 
     if (!File.Exists(jsonPath))

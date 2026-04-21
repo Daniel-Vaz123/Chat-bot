@@ -29,6 +29,22 @@ public sealed class NotificationResources : INotificationResources
     // Interfaz pública
     // ────────────────────────────────────────────────────────────────────────
 
+    public string GetWhatsAppOpeningMessage() =>
+        """
+        ¡Hola! 👋 Bienvenido al gimnasio.
+
+        Puedes preguntarme lo que necesites sobre el club. Estos son temas que suelen resolver dudas rápido:
+
+        • Horarios (lunes a domingo y festivos)
+        • Precios (mensualidad, membresía Black, inscripción, mantenimiento)
+        • Entrenadores, rutinas y clases grupales
+        • Reglas, higiene, invitados y métodos de pago
+        • Instalaciones (regaderas, lockers, báscula / InBody)
+        • Nutrición y edad mínima de ingreso
+
+        Escribe tu pregunta con tus palabras y te respondo con la información oficial. 💪
+        """;
+
     public string GetWelcomeMessage() =>
         """
         ¡Hola! 💪 Bienvenido a [Nombre del Gimnasio].

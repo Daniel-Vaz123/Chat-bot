@@ -2,6 +2,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using Chatbot.Models;
 using Concentus.Structs;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Vosk;
@@ -23,24 +24,49 @@ public sealed class VoskTranscriptionService : IAudioTranscriptionService, IDisp
     public VoskTranscriptionService(
         IOptions<VoskSettings> settings,
         IHttpClientFactory httpClientFactory,
+        IHostEnvironment hostEnvironment,
         ILogger<VoskTranscriptionService> logger)
     {
         _httpClientFactory = httpClientFactory;
         _logger = logger;
 
-        var modelPath = settings.Value.ModelPath;
+        // Prioridad de configuración:
+        // 1) Variable de entorno VOSK_MODEL_PATH
+        // 2) appsettings: Vosk:ModelPath
+        var configuredPath = settings.Value.ModelPath;
+        var envPath = Environment.GetEnvironmentVariable("VOSK_MODEL_PATH");
+        var requestedPath = string.IsNullOrWhiteSpace(envPath) ? configuredPath : envPath;
+        var modelPath = ResolveModelPath(requestedPath, hostEnvironment.ContentRootPath);
 
         if (string.IsNullOrWhiteSpace(modelPath) || !Directory.Exists(modelPath))
         {
             throw new InvalidOperationException(
-                $"El directorio del modelo Vosk no existe o no está configurado: '{modelPath}'. " +
-                "Descarga un modelo desde https://alphacephei.com/vosk/models y configura Vosk:ModelPath.");
+                "El directorio del modelo Vosk no existe o no está configurado. " +
+                $"VOSK_MODEL_PATH='{envPath ?? "(vacío)"}', Vosk:ModelPath='{configuredPath ?? "(vacío)"}', " +
+                $"Ruta resuelta='{modelPath ?? "(nula)"}'. " +
+                "Descarga un modelo desde https://alphacephei.com/vosk/models y configura VOSK_MODEL_PATH o Vosk:ModelPath.");
         }
 
         _logger.LogInformation("Cargando modelo Vosk desde: {ModelPath}", modelPath);
         Vosk.Vosk.SetLogLevel(-1); // Silenciar logs verbosos de Vosk
         _model = new Model(modelPath);
         _logger.LogInformation("Modelo Vosk cargado correctamente.");
+    }
+
+    private static string? ResolveModelPath(string? configuredPath, string contentRootPath)
+    {
+        if (string.IsNullOrWhiteSpace(configuredPath))
+        {
+            return null;
+        }
+
+        if (Path.IsPathRooted(configuredPath))
+        {
+            return configuredPath;
+        }
+
+        // Permite usar rutas relativas al proyecto para que sea portable entre equipos.
+        return Path.GetFullPath(Path.Combine(contentRootPath, configuredPath));
     }
 
     /// <inheritdoc/>

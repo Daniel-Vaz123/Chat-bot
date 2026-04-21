@@ -17,28 +17,33 @@ public class ChatbotService
     private readonly Kernel _kernel;
     private readonly S3VectorsIndexManager _indexManager;
     private readonly MultimodalEmbeddingHelper _multimodalHelper;
+    private readonly IDeepSeekAiService _deepSeekService;
     private readonly string _vectorBucketName;
     private readonly string _indexName;
     private readonly string _imageIndexName;
     private readonly int _textEmbeddingDimensions;
     private readonly int _imageEmbeddingDimensions;
+    private readonly double _maxQueryDistance;
 
     public ChatbotService(
         IAmazonS3Vectors s3Vectors,
         Kernel kernel,
         S3VectorsIndexManager indexManager,
         MultimodalEmbeddingHelper multimodalHelper,
+        IDeepSeekAiService deepSeekService,
         IOptions<AppSettings> settings)
     {
         _s3Vectors = s3Vectors;
         _kernel = kernel;
         _indexManager = indexManager;
         _multimodalHelper = multimodalHelper;
+        _deepSeekService = deepSeekService;
         _vectorBucketName = settings.Value.S3Vectors.BucketName;
         _indexName = settings.Value.S3Vectors.IndexName;
         _imageIndexName = settings.Value.S3Vectors.ImageIndexName;
         _textEmbeddingDimensions = settings.Value.S3Vectors.TextEmbeddingDimensions;
         _imageEmbeddingDimensions = settings.Value.S3Vectors.ImageEmbeddingDimensions;
+        _maxQueryDistance = settings.Value.S3Vectors.MaxQueryDistance;
     }
 
     #region Métodos de Carga (Ingestión)
@@ -172,9 +177,18 @@ public class ChatbotService
         var questionEmbedding = embeddings[0].Vector;
 
         var response = await QueryS3VectorsAsync(questionEmbedding);
-        if (response.Vectors.Count == 0 || response.Vectors[0].Distance > 0.5) return "No encontré respuesta.";
+        
+        // Criterio de similitud: si la distancia es muy grande, no usamos la API para ahorrar tokens
+        if (response.Vectors.Count == 0 || response.Vectors[0].Distance > _maxQueryDistance)
+            return "Lo siento, no encuentro esa información en nuestra base de datos. ¿Te puedo ayudar con precios u horarios?";
 
-        return response.Vectors[0].Metadata.AsDictionary()["answer"].AsString();
+        // Armamos el contexto a mandarle a DeepSeek
+        var metadata = response.Vectors[0].Metadata.AsDictionary();
+        string context = $"Pregunta encontrada en base: {metadata["question"].AsString()}\n" +
+                         $"Información oficial: {metadata["answer"].AsString()}";
+
+        // Pasamos por la IA mágica de DeepSeek para darle formato humano
+        return await _deepSeekService.GetRAGAnswerAsync(context, userQuestion);
     }
 
     // Búsqueda: El usuario envía una imagen y recuperamos su descripción/URL

@@ -116,6 +116,18 @@ public sealed class BedrockImageEmbeddingGenerator : IEmbeddingGenerator<string,
 
     private object CreateTextRequest(string text)
     {
+        // Titan Text Embeddings V2 no acepta "embeddingConfig".
+        // Espera dimensiones y normalización como propiedades de primer nivel.
+        if (IsTitanTextV2Model(_modelId))
+        {
+            return new
+            {
+                inputText = text,
+                dimensions = _outputLength,
+                normalize = true
+            };
+        }
+
         return new
         {
             inputText = text,
@@ -148,6 +160,9 @@ public sealed class BedrockImageEmbeddingGenerator : IEmbeddingGenerator<string,
         // Las imágenes en Base64 típicamente tienen >1000 caracteres
         return input.Length > 500 && !input.Contains(' ') && !input.Contains('\n');
     }
+
+    private static bool IsTitanTextV2Model(string modelId) =>
+        modelId.Contains("titan-embed-text-v2", StringComparison.OrdinalIgnoreCase);
 
     private class TitanMultimodalResponse
     {
