@@ -1,14 +1,16 @@
 ﻿using Amazon.S3Vectors;
-using Amazon.Runtime;
 using Amazon.Extensions.NETCore.Setup;
+using Chatbot.BackgroundServices;
 using Chatbot.Models;
+using Chatbot.Resources;
 using Chatbot.Services;
+using Chatbot.Services.Gym;
+using Chatbot.Services.Gym.Handlers;
 using Chatbot.Extensions;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.SemanticKernel;
 using Amazon.BedrockRuntime;
+using Microsoft.Extensions.Options;
 
 Console.WriteLine("                                          ");
 Console.WriteLine("          HighlandsBot - Chatbot AI       ");
@@ -16,7 +18,10 @@ Console.WriteLine("                                          ");
 Console.WriteLine();
 
 // Configurar servicios
-var builder = Host.CreateApplicationBuilder();
+var builder = WebApplication.CreateBuilder(args);
+
+// Escuchar en todas las interfaces para que Twilio pueda alcanzar el webhook
+builder.WebHost.UseUrls("http://0.0.0.0:5000");
 
 // Cargar configuración
 builder.Configuration
@@ -67,9 +72,13 @@ builder.Services.AddTransient(sp =>
     kernelBuilder.Services.AddSingleton<IAmazonBedrockRuntime>(bedrockClient);
 
     // 3. Registrar generador de embeddings de TEXTO
-    kernelBuilder.Services.AddBedrockEmbeddingGenerator(
+    // El conector Amazon SK 1.26.0 no expone AddBedrockEmbeddingGenerator en IKernelBuilder.
+    // Usamos el generador personalizado BedrockImageEmbeddingGenerator que maneja
+    // tanto texto como imagen en el espacio multimodal de Titan.
+    kernelBuilder.AddBedrockImageEmbeddingGenerator(
         modelId: settings.Bedrock.TextEmbeddingModel,
-        serviceId: "text-embeddings"
+        serviceId: "text-embeddings",
+        outputLength: 1024
     );
 
     // 4. Registrar generador de embeddings de IMAGEN (usando nuestra extensión personalizada)
@@ -87,6 +96,38 @@ builder.Services.AddTransient(sp =>
 builder.Services.AddTransient<ChatbotService>();
 builder.Services.AddTransient<EmbeddingDebugHelper>();
 
+// ── Módulo Gym Chatbot ────────────────────────────────────────────────────
+builder.Services.AddMemoryCache();
+
+// Recursos de notificación (singleton — carga templates al inicio)
+builder.Services.AddSingleton<INotificationResources, NotificationResources>();
+
+// Repositorio de perfiles (singleton — ConcurrentDictionary en memoria)
+builder.Services.AddSingleton<IGymUserProfileRepository, GymUserProfileRepository>();
+
+// Motor de estados y router (scoped — un scope por request/mensaje)
+builder.Services.AddScoped<IGymStateEngine, GymStateEngine>();
+builder.Services.AddScoped<IGymConversationRouter, GymConversationRouter>();
+
+// Handlers de intención — registrados como IIntentHandler para inyección en GymStateEngine
+// Escenario 1: Propósito de Año Nuevo
+builder.Services.AddScoped<IIntentHandler, PropositoAnoNuevoTofuHandler>();
+builder.Services.AddScoped<IIntentHandler, PropositoAnoNuevoMofuHandler>();
+builder.Services.AddScoped<IIntentHandler, PropositoAnoNuevoBofuHandler>();
+// Escenario 2: Atleta Estancado
+builder.Services.AddScoped<IIntentHandler, AtletaEstancadoTofuHandler>();
+builder.Services.AddScoped<IIntentHandler, AtletaEstancadoMofuHandler>();
+builder.Services.AddScoped<IIntentHandler, AtletaEstancadoBofuHandler>();
+// Escenario 3: Desertor
+builder.Services.AddScoped<IIntentHandler, DesertorTofuHandler>();
+builder.Services.AddScoped<IIntentHandler, DesertorMofuHandler>();
+builder.Services.AddScoped<IIntentHandler, DesertorBofuHandler>();
+
+// Trigger service y background service
+builder.Services.AddScoped<IGymTriggerService, GymTriggerService>();
+builder.Services.AddHostedService<GymTriggerBackgroundService>();
+// ─────────────────────────────────────────────────────────────────────────
+
 // Registrar helper multimodal
 builder.Services.AddTransient(sp =>
 {
@@ -94,7 +135,28 @@ builder.Services.AddTransient(sp =>
     return new MultimodalEmbeddingHelper(bedrockRuntime, settings.Bedrock.ImageEmbeddingModel, settings.S3Vectors.ImageEmbeddingDimensions);
 });
 
+// ── Integración WhatsApp / Twilio / Vosk ─────────────────────────────────
+// Configuración de Twilio y Vosk desde appsettings
+builder.Services.Configure<TwilioSettings>(builder.Configuration.GetSection("Twilio"));
+builder.Services.Configure<VoskSettings>(builder.Configuration.GetSection("Vosk"));
+
+// HttpClient factory (requerido por VoskTranscriptionService para descargar audio)
+builder.Services.AddHttpClient();
+
+// Servicio de transcripción de audio (Singleton — el modelo Vosk se carga una sola vez)
+builder.Services.AddSingleton<IAudioTranscriptionService, VoskTranscriptionService>();
+
+// Adaptador de canal WhatsApp (Scoped — un scope por request)
+builder.Services.AddScoped<IChannelAdapter, TwilioWhatsAppAdapter>();
+// ─────────────────────────────────────────────────────────────────────────
+
+// Añadir soporte para controladores MVC (necesario para WhatsAppController)
+builder.Services.AddControllers();
+
 var app = builder.Build();
+
+// Mapear rutas de controladores
+app.MapControllers();
 
 var chatbotService = app.Services.GetRequiredService<ChatbotService>();
 var debugHelper = app.Services.GetRequiredService<EmbeddingDebugHelper>();
@@ -106,7 +168,15 @@ Console.WriteLine($"   - Índice: {settings.S3Vectors.IndexName}");
 Console.WriteLine($"   - Modelo: {settings.Bedrock.TextEmbeddingModel}");
 Console.WriteLine();
 
-// Menú principal
+// Arrancar el servidor HTTP en background ANTES del menú interactivo.
+// Sin esto, app.Run() bloquearía el hilo y el menú nunca se mostraría,
+// o el menú bloquearía el hilo y el servidor nunca escucharía peticiones.
+await app.StartAsync();
+Console.WriteLine("   Servidor HTTP escuchando en http://0.0.0.0:5000");
+Console.WriteLine("   Webhook Twilio: POST http://<tu-host>:5000/api/whatsapp/webhook");
+Console.WriteLine();
+
+// Menú principal (corre en el hilo principal mientras el servidor HTTP corre en background)
 bool exit = false;
 
 while (!exit)
@@ -147,12 +217,14 @@ while (!exit)
             exit = true;
             Console.WriteLine("\n ¡Hasta pronto!");
             break;
-
         default:
             Console.WriteLine("\n Opción inválida. Intenta de nuevo.");
             break;
     }
 }
+
+// El servidor HTTP sigue corriendo hasta que el proceso se detenga (Ctrl+C o señal del SO)
+await app.WaitForShutdownAsync();
 
 // Función para cargar preguntas
 static async Task LoadQuestionsAsync(ChatbotService chatbotService)

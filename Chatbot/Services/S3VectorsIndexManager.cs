@@ -143,7 +143,7 @@ public class S3VectorsIndexManager
 
             var response = await _s3Vectors.CreateIndexAsync(request);
             
-            _logger.LogDebug("Índice creado con ARN: {IndexArn}", response.IndexArn);
+            _logger.LogDebug("Índice creado: {IndexName}", indexName);
         }
         catch (AmazonS3VectorsException ex) when (ex.Message.Contains("already exists"))
         {

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -8,19 +8,34 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AWSSDK.BedrockRuntime" Version="4.0.16.1" />
-    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="4.0.3.23" />
-    <PackageReference Include="AWSSDK.S3Vectors" Version="4.0.4.9" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Http" Version="10.0.3" />
-    <PackageReference Include="Microsoft.SemanticKernel" Version="1.73.0" />
-    <PackageReference Include="Microsoft.SemanticKernel.Connectors.Amazon" Version="1.73.0-alpha" />
+    <!-- Audio / Transcripción -->
+    <PackageReference Include="Concentus" Version="2.2.2" />
+    <PackageReference Include="Concentus.OggFile" Version="1.0.7" />
+    <PackageReference Include="NAudio" Version="2.2.1" />
+    <PackageReference Include="Vosk" Version="0.3.38" />
+
+    <!-- WhatsApp / Twilio -->
+    <PackageReference Include="Twilio" Version="7.0.0" />
+
+    <!-- AWS SDK -->
+    <PackageReference Include="AWSSDK.BedrockRuntime" Version="3.7.400" />
+    <PackageReference Include="AWSSDK.S3Vectors" Version="3.7.400" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.7.301" />
+
+    <!-- Semantic Kernel + AI -->
+    <PackageReference Include="Microsoft.SemanticKernel" Version="1.26.0" />
+    <PackageReference Include="Microsoft.SemanticKernel.Connectors.Amazon" Version="1.26.0-alpha" />
+    <PackageReference Include="Microsoft.Extensions.AI.Abstractions" Version="9.0.0-preview.9.24525.1" />
   </ItemGroup>
 
   <ItemGroup>
     <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.Development.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.example.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="appsettings.Production.json">
@@ -33,4 +48,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
 </Project>
