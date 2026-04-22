@@ -1,0 +1,375 @@
+╔══════════════════════════════════════════════════════════════════════════════════╗
+║          ACORDEÓN TÉCNICO — HighlandsBot Chatbot Multimodal con IA             ║
+║          Para responder preguntas difíciles en presentación final              ║
+╚══════════════════════════════════════════════════════════════════════════════════╝
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+1) BÚSQUEDA SEMÁNTICA (RAG) Y CEREBRO IA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ARCHIVO PRINCIPAL: Chatbot/Services/ChatbotService.cs
+MÉTODO CLAVE:      AskQuestionAsync(string userQuestion)  [línea ~130]
+
+FLUJO COMPLETO (paso a paso):
+
+  PASO 1 — GENERACIÓN DE EMBEDDING DE LA PREGUNTA
+  ─────────────────────────────────────────────────
+  Código exacto (ChatbotService.cs ~línea 140-143):
+    var embeddingGenerator = _kernel.Services
+        .GetRequiredKeyedService<IEmbeddingGenerator<string, Embedding<float>>>("text-embeddings");
+    var embeddings = await embeddingGenerator.GenerateAsync([userQuestion]);
+    var questionEmbedding = embeddings[0].Vector;
+
+  Modelo usado: amazon.titan-embed-text-v2:0
+  Dimensiones:  1024 (float32)
+  Configurado en: appsettings.json → Bedrock:TextEmbeddingModel
+
+  PASO 2 — CONSULTA EN AWS S3 VECTORS
+  ─────────────────────────────────────
+  Código exacto (ChatbotService.cs, método QueryS3VectorsAsync ~línea 290):
+    return await _s3Vectors.QueryVectorsAsync(new QueryVectorsRequest
+    {
+        VectorBucketName = _vectorBucketName,
+        IndexName        = _indexName,
+        TopK             = 1,                    ← RECUPERA SOLO EL MEJOR MATCH
+        QueryVector      = new VectorData { Float32 = vector.ToArray().ToList() },
+        ReturnMetadata   = true,
+        ReturnDistance   = true
+    });
+
+  TopK para TEXTO:   1  (solo el documento más relevante)
+  TopK para IMÁGENES: 5  (top 5 para comparar opciones — QueryS3ImageVectorsAsync ~línea 305)
+
+  PASO 3 — FILTRO POR DISTANCIA (UMBRAL DE PRECISIÓN)
+  ─────────────────────────────────────────────────────
+  Código exacto (ChatbotService.cs ~línea 147-149):
+    if (response.Vectors.Count == 0 || response.Vectors[0].Distance > _maxQueryDistance)
+        return "Lo siento, no encuentro esa información en nuestra base de datos...";
+
+  MaxQueryDistance: 0.75  (appsettings.json → S3Vectors:MaxQueryDistance)
+  Interpretación:   distancia < 0.75 = match válido | distancia > 0.75 = sin respuesta
+  Métrica:          COSENO (configurada al crear el índice en S3VectorsIndexManager.cs)
+  Nota:             Distancia coseno 0 = idéntico, 2 = opuesto. 0.75 es umbral conservador.
+
+  PASO 4 — CONSTRUCCIÓN DEL CONTEXTO RAG
+  ────────────────────────────────────────
+  Código exacto (ChatbotService.cs ~línea 152-154):
+    var metadata = response.Vectors[0].Metadata.AsDictionary();
+    string context = $"Pregunta encontrada en base: {metadata["question"].AsString()}\n" +
+                     $"Información oficial: {metadata["answer"].AsString()}";
+
+  PASO 5 — GENERACIÓN DE RESPUESTA CON DEEPSEEK
+  ───────────────────────────────────────────────
+  Código exacto (ChatbotService.cs ~línea 157):
+    return await _deepSeekService.GetRAGAnswerAsync(context, userQuestion);
+
+  Archivo: Chatbot/Services/DeepSeekAiService.cs
+  Modelo:  deepseek-chat  (línea ~42: model = "deepseek-chat")
+  Temperatura: 0.3  (línea ~55: temperature = 0.3) ← baja para respuestas precisas
+  Endpoint: https://api.deepseek.com/chat/completions  (compatible con formato OpenAI)
+  Timeout:  2 minutos (Program.cs ~línea 115)
+
+PREGUNTA DIFÍCIL: "¿Por qué usas DeepSeek y no Claude directamente en Bedrock?"
+RESPUESTA: DeepSeek tiene mejor relación costo/calidad para respuestas en español.
+           Claude en Bedrock se usa para los embeddings (Titan), no para generación.
+           La arquitectura es modular: se puede cambiar el LLM sin tocar el RAG.
+
+PREGUNTA DIFÍCIL: "¿Qué pasa si la pregunta no tiene match en la base?"
+RESPUESTA: El filtro MaxQueryDistance = 0.75 rechaza el resultado y devuelve un
+           mensaje de fallback sin llamar a DeepSeek, ahorrando tokens y costo.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+2) PROCESAMIENTO DE AUDIO (VOSK — STT LOCAL)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ARCHIVO: Chatbot/Services/VoskTranscriptionService.cs
+INTERFAZ: IAudioTranscriptionService → TranscribeAsync(audioUrl, authUser, authPassword)
+
+TECNOLOGÍA:
+  - Vosk 0.3.38 (NuGet)
+  - Modelo: vosk-model-small-es-0.42 (español, ~50MB)
+  - Decodificación Ogg/Opus: Concentus 2.2.2 + Concentus.OggFile 1.0.7
+  - Frecuencia de muestreo: 16000 Hz, mono, PCM 16-bit
+
+FLUJO DE TRANSCRIPCIÓN (método TranscribeFromFile ~línea 90):
+  1. Abre el archivo Ogg/Opus con OpusOggReadStream
+  2. Decodifica paquete a paquete con OpusDecoder(16000, 1)
+  3. Convierte short[] → byte[] (little-endian PCM 16-bit)
+  4. Alimenta VoskRecognizer.AcceptWaveform(pcmBytes, length)
+  5. Extrae texto del JSON final: recognizer.FinalResult() → {"text": "..."}
+
+CÓDIGO CLAVE (VoskTranscriptionService.cs ~línea 95-110):
+  var decoder = new OpusDecoder(16000, 1);
+  var oggIn   = new Concentus.Oggfile.OpusOggReadStream(decoder, fileIn);
+  using var recognizer = new VoskRecognizer(_model, 16000.0f);
+  recognizer.SetMaxAlternatives(0);
+  recognizer.SetWords(false);
+  while (oggIn.HasNextPacket) {
+      var pcmShorts = oggIn.DecodeNextPacket();
+      var pcmBytes  = new byte[pcmShorts.Length * 2];
+      Buffer.BlockCopy(pcmShorts, 0, pcmBytes, 0, pcmBytes.Length);
+      recognizer.AcceptWaveform(pcmBytes, pcmBytes.Length);
+  }
+
+REGISTRO EN DI (Program.cs ~línea 110):
+  builder.Services.AddSingleton<IAudioTranscriptionService, VoskTranscriptionService>();
+  ← Singleton porque el modelo Vosk es costoso de cargar (cientos de MB en RAM)
+
+CONFIGURACIÓN (appsettings.json):
+  "Vosk": { "ModelPath": "vosk-model-es" }
+  Variable de entorno alternativa: VOSK_MODEL_PATH (tiene prioridad sobre appsettings)
+
+VENTAJA CLAVE — PRIVACIDAD TOTAL:
+  El audio NUNCA sale del servidor. No se envía a AWS, Google, ni ninguna nube.
+  Toda la transcripción ocurre en memoria del proceso .NET local.
+  Esto es crítico para cumplimiento de privacidad (GDPR/LFPDPPP).
+
+PREGUNTA DIFÍCIL: "¿Por qué Vosk y no Whisper de OpenAI?"
+RESPUESTA: Vosk corre 100% offline. Whisper requiere enviar el audio a la API de OpenAI.
+           Para un gimnasio, las notas de voz pueden contener datos personales sensibles.
+           Vosk también tiene latencia menor al no depender de red externa.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+3) CONEXIÓN WHATSAPP (TWILIO + NODE.JS BRIDGE)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+CONTROLADOR: Chatbot/Controllers/WhatsAppController.cs
+RUTA:        [Route("api/whatsapp")]  → POST http://localhost:5000/api/whatsapp
+MÉTODO:      ReceiveWebhook([FromBody] BridgeWebhookPayload payload)
+
+ARQUITECTURA DE MENSAJERÍA (dos capas):
+
+  CAPA 1 — RECEPCIÓN (Twilio → ngrok → .NET):
+    Twilio envía POST a: https://xxxx.ngrok-free.app/api/whatsapp
+    ngrok redirige a:    http://localhost:5000/api/whatsapp
+    Payload:             BridgeWebhookPayload { From, Body, IsAudio }
+    Formato:             application/json  [Consumes("application/json")]
+
+  CAPA 2 — ENVÍO (.NET → Node.js Bridge → WhatsApp):
+    Archivo:    Chatbot/Services/Gym/LocalNodeWhatsAppAdapter.cs
+    Endpoint:   http://localhost:3000/send  (Node.js Bridge)
+    Payload:    { userId: "...", message: "..." }
+    Timeout:    3 minutos (Program.cs ~línea 112)
+
+FLUJO COMPLETO DEL WEBHOOK (WhatsAppController.cs):
+  1. Validar que payload.From no esté vacío
+  2. Resolver texto: audio → VoskTranscriptionService | texto → payload.Body
+  3. Detectar saludo/menú → enviar mensaje de bienvenida (con caché 7 días)
+  4. Llamar ChatbotService.AskQuestionAsync(texto) → RAG + DeepSeek
+  5. Enviar respuesta con IChannelAdapter.SendMessageAsync(userId, respuesta)
+  6. Siempre retornar HTTP 200 con TwiML vacío → evita reintentos de Twilio
+
+CÓDIGO CLAVE — RETORNO SIEMPRE 200 (WhatsAppController.cs ~línea 95):
+  private ContentResult TwimlOk() =>
+      Content("<Response/>", "text/xml");
+
+SEGURIDAD:
+  - TwilioSettings cargado desde appsettings (AccountSid, AuthToken, WhatsAppNumber)
+  - Caché de bienvenida por userId: SlidingExpiration = 7 días (IMemoryCache)
+  - El controlador no expone datos internos en la respuesta HTTP
+
+DETECCIÓN DE SALUDOS (WhatsAppController.cs, IsMenuOrGreetingTrigger ~línea 110):
+  Palabras exactas: "hola", "hey", "hi", "menu", "menú", "ayuda", "gracias", "ok"...
+  Prefijos: "hola ", "buenos ", "buenas tardes", "buen día"...
+  Si es saludo Y no se envió bienvenida reciente → envía mensaje de apertura sin RAG
+
+NGROK:
+  Puerto: 5000 (configurado en Program.cs línea ~18: builder.WebHost.UseUrls("http://0.0.0.0:5000"))
+  Comando: ngrok http 5000
+  El ejecutable ngrok.exe está incluido en Chatbot/ngrok.exe
+
+PREGUNTA DIFÍCIL: "¿Por qué un puente Node.js y no usar Twilio SDK directo en C#?"
+RESPUESTA: El puente Node.js usa whatsapp-web.js para conectarse a WhatsApp Web,
+           lo que permite usar el número personal sin costo de API de Twilio.
+           TwilioWhatsAppAdapter.cs existe como alternativa para producción con Twilio real.
+           La interfaz IChannelAdapter permite cambiar entre ambos sin tocar el controlador.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+4) STACK TECNOLÓGICO COMPLETO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+LENGUAJE Y RUNTIME:
+  C# con .NET 10.0 (TargetFramework: net10.0 en Chatbot.csproj)
+  ASP.NET Core — Minimal API + MVC Controllers
+
+NUBE — AWS:
+  Servicio          | Uso en el proyecto
+  ──────────────────|──────────────────────────────────────────────────────
+  Amazon Bedrock    | Modelos de IA: Titan Embeddings (texto e imagen)
+  AWS S3 Vectors    | Base de datos vectorial (índices de texto e imagen)
+  SDK:              | AWSSDK.BedrockRuntime 3.7.400 + AWSSDK.S3Vectors 3.7.400
+
+IA GENERATIVA:
+  DeepSeek Chat API (deepseek-chat) — compatible con formato OpenAI
+  Temperatura: 0.3 para respuestas precisas y apegadas al contexto
+
+EMBEDDINGS:
+  Texto:  amazon.titan-embed-text-v2:0  → 1024 dimensiones
+  Imagen: amazon.titan-embed-image-v1   → 1024 dimensiones
+  Multimodal: imagen + texto juntos en un solo embedding (MultimodalEmbeddingHelper.cs)
+
+MENSAJERÍA:
+  Twilio SDK 7.0.0 (NuGet) — para producción con número Twilio real
+  Node.js Bridge (Chatbot/Bridge/) — para desarrollo con WhatsApp Web personal
+
+STT LOCAL:
+  Vosk 0.3.38 + modelo vosk-model-small-es-0.42
+  Concentus 2.2.2 (decodificación Ogg/Opus)
+  NAudio 2.2.1 (utilidades de audio)
+
+ORQUESTACIÓN IA:
+  Microsoft Semantic Kernel 1.26.0
+  Microsoft.SemanticKernel.Connectors.Amazon 1.26.0-alpha
+  Microsoft.Extensions.AI.Abstractions 9.0.0-preview
+
+FLUJOS CONVERSACIONALES:
+  GymStateEngine.cs — máquina de estados con IMemoryCache (TTL 30 min)
+  9 handlers activos: 3 escenarios × 3 etapas (TOFU/MOFU/BOFU)
+  GymTriggerBackgroundService.cs — PeriodicTimer cada 1 hora
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+5) PARÁMETROS CRÍTICOS (DATOS DE VALOR EXACTOS)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TopK — CUÁNTOS DOCUMENTOS RECUPERA:
+  Texto:   TopK = 1   → ChatbotService.cs, método QueryS3VectorsAsync
+           Código: TopK = 1,  (dentro de QueryVectorsRequest)
+  Imagen:  TopK = 5   → ChatbotService.cs, método QueryS3ImageVectorsAsync
+           Código: TopK = 5, // Retornar top 5 para ver más opciones
+
+MaxQueryDistance — UMBRAL DE PRECISIÓN:
+  Valor:   0.75  (appsettings.json → S3Vectors:MaxQueryDistance)
+  Clase:   AppSettings.cs → S3VectorsSettings.MaxQueryDistance
+           Comentario en código: "Rechaza el mejor match de S3 Vectors si la distancia
+           es mayor que este valor (menor = más estricto)."
+  Uso:     ChatbotService.cs ~línea 147:
+           if (response.Vectors[0].Distance > _maxQueryDistance) → fallback sin IA
+  Umbral imagen (Program.cs, ChatbotImageModeAsync ~línea 340):
+           if (topMatch.Distance > .5) → "Resultado con baja similitud"
+
+ModelID — MODELOS EXACTOS EN BEDROCK:
+  Texto Embeddings:  "amazon.titan-embed-text-v2:0"
+                     appsettings.json → Bedrock:TextEmbeddingModel
+                     Program.cs: modelId: settings.Bedrock.TextEmbeddingModel
+  Imagen Embeddings: "amazon.titan-embed-image-v1"
+                     appsettings.json → Bedrock:ImageEmbeddingModel
+  LLM Generativo:    "deepseek-chat"
+                     DeepSeekAiService.cs ~línea 42: model = "deepseek-chat"
+
+Dimensiones de Vectores:
+  TextEmbeddingDimensions:  1024  (appsettings.json → S3Vectors:TextEmbeddingDimensions)
+  ImageEmbeddingDimensions: 1024  (appsettings.json → S3Vectors:ImageEmbeddingDimensions)
+  Tipo de dato:             float32
+
+Métrica de Distancia:
+  Valor por defecto: "cosine"  (S3VectorsIndexManager.cs, método EnsureIndexExistsAsync)
+  Código: string distanceMetric = "cosine"  [parámetro por defecto]
+  Alternativa disponible: "euclidean"
+
+Temperatura DeepSeek:
+  Valor: 0.3  (DeepSeekAiService.cs ~línea 55: temperature = 0.3)
+  Razón: baja temperatura = respuestas más deterministas y apegadas al contexto RAG
+
+Cache TTL de Estado Conversacional:
+  Valor: 30 minutos  (GymStateEngine.cs línea ~18: TimeSpan.FromMinutes(30))
+  Código: private static readonly TimeSpan CacheTtl = TimeSpan.FromMinutes(30);
+
+Cache TTL de Bienvenida WhatsApp:
+  Valor: 7 días  (WhatsAppController.cs ~línea 75: SlidingExpiration = TimeSpan.FromDays(7))
+
+Intervalo de Triggers Proactivos:
+  Valor: 1 hora  (GymTriggerBackgroundService.cs ~línea 30: TimeSpan.FromHours(1))
+
+Puerto del Servidor:
+  .NET Backend: 5000  (Program.cs: builder.WebHost.UseUrls("http://0.0.0.0:5000"))
+  Node.js Bridge: 3000  (LocalNodeWhatsAppAdapter.cs: _bridgeUrl = "http://localhost:3000/send")
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+6) LIMPIEZA Y OPTIMIZACIÓN — QUÉ SE ELIMINÓ O DEJÓ DE USAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ADAPTADOR TWILIO REAL (TwilioWhatsAppAdapter.cs) — DESACTIVADO EN DI:
+  Archivo:  Chatbot/Services/Gym/TwilioWhatsAppAdapter.cs  (existe pero no se usa)
+  Razón:    En desarrollo se usa LocalNodeWhatsAppAdapter (puente Node.js)
+  Código en Program.cs ~línea 120:
+    // builder.Services.AddTransient<IChannelAdapter, TwilioWhatsAppAdapter>();  ← comentado
+    builder.Services.AddTransient<IChannelAdapter, LocalNodeWhatsAppAdapter>();  ← activo
+  Para producción: cambiar esta línea y configurar Twilio real.
+
+MODO CHATBOT DE TEXTO DIRECTO (ChatbotModeAsync) — ELIMINADO DEL MENÚ:
+  La función ChatbotModeAsync() existe en Program.cs pero NO está en el menú principal.
+  El menú pasó de tener "Modo Chatbot" a "Buscar por descripción (texto)" y "Buscar por URL".
+  Razón: el flujo RAG ahora va directo por WhatsApp; el modo consola es solo para debug.
+
+OPCIÓN DE CARGA DE IMÁGENES (LoadImagesAsync) — ELIMINADA DEL MENÚ VISIBLE:
+  La función LoadImagesAsync() existe en Program.cs pero NO aparece en el menú.
+  Razón: la carga de imágenes es una operación de administración puntual, no de uso diario.
+  Se puede invocar manualmente si se necesita reindexar el catálogo de artículos.
+
+ESCENARIOS DE GIMNASIO NO IMPLEMENTADOS (ScenarioKey enum):
+  El enum ScenarioKey define 16 escenarios (Enums.cs).
+  Solo 3 tienen handlers implementados: PropositoAnoNuevo, AtletaEstancado, Desertor.
+  Los demás (ConsultaPrecios, MiedoPesas, HorariosMulticlub, etc.) están definidos
+  pero sin handlers → el router los ignora y muestra el menú de bienvenida.
+  Esto es diseño intencional: arquitectura extensible sin código muerto activo.
+
+ARCHIVO DE EJEMPLO DE CONFIGURACIÓN (appsettings.example.json):
+  Existe como plantilla de referencia con valores placeholder ("YOUR_AWS_ACCESS_KEY_HERE").
+  No se carga en runtime. Solo sirve como documentación de las claves requeridas.
+  El archivo real con credenciales es appsettings.Development.json (en .gitignore).
+
+ARCHIVO JSON TEMPORAL (Ramas/d170459d-2561-4b7c-a2f3-5edb66afc91b.json):
+  Nombre con GUID sugiere que fue generado automáticamente durante pruebas.
+  No es referenciado por ningún servicio activo.
+  Candidato a eliminar para mantener el proyecto limpio.
+
+CARPETA __MACOSX:
+  Generada automáticamente al descomprimir un ZIP en macOS.
+  No contiene código funcional. Puede eliminarse sin impacto.
+  Archivos: ._Chatbot, ._Chatbot.sln, .DS_Store, etc.
+
+EmbeddingDebugHelper.cs — USO LIMITADO A OPCIÓN 4 DEL MENÚ:
+  Solo se usa en RunEmbeddingDebugAsync() (opción 4 del menú de consola).
+  Es una herramienta de diagnóstico, no parte del flujo de producción.
+  Registrado como Transient: builder.Services.AddTransient<EmbeddingDebugHelper>()
+
+OPTIMIZACIÓN DE SINGLETON PARA VOSK:
+  VoskTranscriptionService registrado como Singleton (no Transient ni Scoped).
+  Razón: el modelo Vosk ocupa cientos de MB en RAM. Cargarlo una sola vez al inicio
+  evita latencia en cada request y presión sobre el GC.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+RESUMEN RÁPIDO PARA PREGUNTAS DE ÚLTIMO MINUTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+¿Qué hace el bot?
+  Responde preguntas de socios de gimnasio por WhatsApp usando RAG + IA generativa.
+
+¿Qué es RAG?
+  Retrieval-Augmented Generation: busca el contexto relevante en una base vectorial
+  ANTES de pedirle a la IA que genere la respuesta. Evita alucinaciones.
+
+¿Cómo funciona el vector store?
+  AWS S3 Vectors almacena vectores float32 de 1024 dimensiones.
+  La búsqueda usa distancia coseno. TopK=1 para texto, TopK=5 para imágenes.
+
+¿Qué modelo de IA se usa?
+  Embeddings: Amazon Titan Embed Text v2 (texto) + Titan Embed Image v1 (imagen)
+  Generación: DeepSeek Chat (deepseek-chat), temperatura 0.3
+
+¿Cómo llegan los mensajes de WhatsApp?
+  Twilio → ngrok (puerto 5000) → POST /api/whatsapp → WhatsAppController.cs
+
+¿Cómo se procesan las notas de voz?
+  Vosk (offline, español) decodifica Ogg/Opus → PCM 16kHz → texto. Sin nube.
+
+¿Qué pasa si la pregunta no tiene respuesta en la base?
+  MaxQueryDistance=0.75 filtra el resultado. Si distancia > 0.75, respuesta de fallback.
+
+¿Cuántos escenarios conversacionales hay?
+  3 implementados (PropositoAnoNuevo, AtletaEstancado, Desertor) de 16 definidos.
+  Cada uno tiene 3 handlers: TOFU, MOFU, BOFU.
+
+¿Hay mensajes automáticos?
+  Sí. GymTriggerBackgroundService corre cada hora y detecta inactividad > 15 días,
+  post-primera-clase 24h, hitos de gamificación y formularios abandonados.
