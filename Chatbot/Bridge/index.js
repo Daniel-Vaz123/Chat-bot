@@ -38,25 +38,27 @@ client.on('message', async msg => {
 
     try {
         let isAudio = false;
-        let mediaUrl = null;
+        let audioBase64 = null;
+        let audioMimeType = null;
 
-        // Comprobar si tiene Media (audio/imagen) - opcional
         if (msg.hasMedia) {
             const media = await msg.downloadMedia();
             if (media.mimetype.startsWith('audio/')) {
                 isAudio = true;
-                // En un caso real: podrías guardar el audio aquí o mandar base64
-                // A tu bot C# (por simplicidad asumiremos que texto para empezar o procesaremos base64)
+                audioBase64 = media.data;
+                audioMimeType = media.mimetype;
             }
         }
 
         const payload = {
             From: msg.from,
             Body: msg.body || "",
-            IsAudio: isAudio
+            IsAudio: isAudio,
+            ...(audioBase64 && { audioBase64, audioMimeType })
         };
 
-        console.log(`📩 Recibido de ${msg.from}: ${msg.body}`);
+        const logLine = isAudio ? `[audio ${audioMimeType || '?'}]` : (msg.body || '');
+        console.log(`📩 Recibido de ${msg.from}: ${logLine}`);
 
         // Reenviar a C# (timeout alto: Bedrock + S3 + DeepSeek pueden tardar varios segundos)
         await axios.post(CSHARP_WEBHOOK_URL, payload, { timeout: 120000 });
