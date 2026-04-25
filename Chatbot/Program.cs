@@ -11,6 +11,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.SemanticKernel;
 using Amazon.BedrockRuntime;
 using Microsoft.Extensions.Options;
+using System.Text.Json;
 
 Console.WriteLine("                                          ");
 Console.WriteLine("          HighlandsBot - Chatbot AI       ");
@@ -20,15 +21,20 @@ Console.WriteLine();
 // Configurar servicios
 var builder = WebApplication.CreateBuilder(args);
 
-// Escuchar en todas las interfaces para que Twilio pueda alcanzar el webhook
-builder.WebHost.UseUrls("http://0.0.0.0:5000");
-
 // Cargar configuración
 builder.Configuration
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true)
     .AddEnvironmentVariables();
+
+// Puerto/URLs: ASPNETCORE_URLS (env) > appsettings "Urls" > 5000 por defecto.
+var listenUrls = Environment.GetEnvironmentVariable("ASPNETCORE_URLS");
+if (string.IsNullOrWhiteSpace(listenUrls))
+    listenUrls = builder.Configuration["Urls"];
+if (string.IsNullOrWhiteSpace(listenUrls))
+    listenUrls = "http://0.0.0.0:5000";
+builder.WebHost.UseUrls(listenUrls);
 
 // Configurar opciones
 builder.Services.Configure<AppSettings>(builder.Configuration);
@@ -135,9 +141,8 @@ builder.Services.AddTransient(sp =>
     return new MultimodalEmbeddingHelper(bedrockRuntime, settings.Bedrock.ImageEmbeddingModel, settings.S3Vectors.ImageEmbeddingDimensions);
 });
 
-// ── Integración WhatsApp / Twilio / Vosk ─────────────────────────────────
-// Configuración de Twilio y Vosk desde appsettings
-builder.Services.Configure<TwilioSettings>(builder.Configuration.GetSection("Twilio"));
+// ── Integración WhatsApp Bridge / Vosk ───────────────────────────────────
+// Configuración de Vosk desde appsettings
 builder.Services.Configure<VoskSettings>(builder.Configuration.GetSection("Vosk"));
 
 // HttpClient factory (requerido por VoskTranscriptionService para descargar audio)
@@ -158,7 +163,7 @@ builder.Services.AddHttpClient<IDeepSeekAiService, DeepSeekAiService>(client =>
     client.Timeout = TimeSpan.FromMinutes(2);
 });
 
-// Reemplazamos la conexión real (TwilioWhatsAppAdapter) por la del Node Bridge
+// Canal de salida de mensajes por Node Bridge local
 builder.Services.AddTransient<IChannelAdapter, LocalNodeWhatsAppAdapter>();
 // ─────────────────────────────────────────────────────────────────────────
 
@@ -184,8 +189,8 @@ Console.WriteLine();
 // Sin esto, app.Run() bloquearía el hilo y el menú nunca se mostraría,
 // o el menú bloquearía el hilo y el servidor nunca escucharía peticiones.
 await app.StartAsync();
-Console.WriteLine("   Servidor HTTP escuchando en http://0.0.0.0:5000");
-Console.WriteLine("   Webhook Twilio: POST http://<tu-host>:5000/api/whatsapp/webhook");
+Console.WriteLine($"   Servidor HTTP escuchando en {listenUrls}");
+Console.WriteLine("   Webhook Bridge: POST http://<tu-host>:<puerto>/api/whatsapp/webhook");
 Console.WriteLine();
 
 // Menú principal (corre en el hilo principal mientras el servidor HTTP corre en background)
@@ -200,7 +205,8 @@ while (!exit)
     Console.WriteLine("│ 2. Buscar por descripción (texto)     │");
     Console.WriteLine("│ 3. Buscar por URL de imagen           │");
     Console.WriteLine("│ 4. Test de Embeddings (Debug)         │");
-    Console.WriteLine("│ 5. Salir                              │");
+    Console.WriteLine("│ 5. Auditar índice vectorial (AWS)     │");
+    Console.WriteLine("│ 6. Salir                              │");
     Console.WriteLine("└────────────────────────────────────--─┘");
     Console.Write("\nSelecciona una opción: ");
 
@@ -225,6 +231,10 @@ while (!exit)
             break;
 
         case "5":
+            await AuditVectorIndexAsync(chatbotService, settings);
+            break;
+
+        case "6":
             exit = true;
             Console.WriteLine("\n ¡Hasta pronto!");
             break;
@@ -282,107 +292,6 @@ static async Task LoadQuestionsAsync(ChatbotService chatbotService)
     }
 }
 
-
-// Función para cargar imágenes
-static async Task LoadImagesAsync(ChatbotService chatbotService)
-{
-    Console.WriteLine("\n" + new string('═', 50));
-    Console.WriteLine("  CARGA DE IMÁGENES AL ÍNDICE VECTORIAL");
-    Console.WriteLine(new string('═', 50));
-
-    string jsonPath = "Ramas/articulos.json";
-    jsonPath = Path.Combine(Environment.CurrentDirectory, jsonPath);
-
-    if (!File.Exists(jsonPath))
-    {
-        Console.WriteLine($" Error: No se encontró el archivo {jsonPath}");
-        return;
-    }
-
-    Console.WriteLine("\n  ADVERTENCIA: Esta operación cargará todas las imágenes al índice.");
-    Console.Write("¿Deseas continuar? (s/n): ");
-
-    var confirm = Console.ReadLine()?.ToLower();
-
-    if (confirm == "s" || confirm == "si")
-    {
-        try
-        {
-            Console.WriteLine("\n📦 Indexando productos con embeddings multimodales (imagen + texto)...\n");
-            
-            var result = await chatbotService.LoadImagesToVectorStoreAsync(jsonPath);
-            
-            // Mostrar progreso de cada imagen
-            foreach (var status in result.ImageStatuses)
-            {
-                if (status.Success)
-                {
-                    var shortDesc = status.Description.Length > 50 
-                        ? status.Description.Substring(0, 50) + "..." 
-                        : status.Description;
-                    Console.WriteLine($"✓ {shortDesc}");
-                }
-                else
-                {
-                    Console.WriteLine($"✗ Error procesando {status.Description}: {status.ErrorMessage}");
-                }
-            }
-            
-            Console.WriteLine($"\n✓ {result.SuccessCount} productos indexados con embeddings multimodales");
-            if (result.FailureCount > 0)
-            {
-                Console.WriteLine($"⚠️  {result.FailureCount} productos fallaron");
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"\n Error al cargar las imágenes: {ex.Message}");
-        }
-    }
-    else
-    {
-        Console.WriteLine(" Operación cancelada.");
-    }
-}
-
-// Función para modo chatbot
-static async Task ChatbotModeAsync(ChatbotService chatbotService)
-{
-    Console.WriteLine("\n" + new string('═', 50));
-    Console.WriteLine("   MODO CHATBOT - HighlandsBot");
-    Console.WriteLine(new string('═', 50));
-    Console.WriteLine("\n Escribe tus preguntas y obtén respuestas instantáneas.");
-    Console.WriteLine("   Escribe 'salir' para volver al menú principal.\n");
-
-    while (true)
-    {
-        Console.Write(" Tú: ");
-        var userQuestion = Console.ReadLine();
-
-        if (string.IsNullOrWhiteSpace(userQuestion))
-        {
-            continue;
-        }
-
-        if (userQuestion.ToLower() == "salir")
-        {
-            Console.WriteLine("\n Volviendo al menú principal...");
-            break;
-        }
-
-        try
-        {
-            Console.Write(" HighlandsBot: ");
-            var answer = await chatbotService.AskQuestionAsync(userQuestion);
-            Console.WriteLine(answer);
-            Console.WriteLine();
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($" Error: {ex.Message}\n");
-        }
-    }
-}
 
 // Función para búsqueda por descripción de texto
 static async Task ChatbotImageModeAsync(ChatbotService chatbotService)
@@ -567,5 +476,70 @@ static async Task RunEmbeddingDebugAsync(EmbeddingDebugHelper debugHelper)
     catch (Exception ex)
     {
         Console.WriteLine($"\n Error al ejecutar el test: {ex.Message}");
+    }
+}
+
+// Función para auditar y listar TODOS los vectores cargados en AWS
+static async Task AuditVectorIndexAsync(ChatbotService chatbotService, AppSettings settings)
+{
+    Console.WriteLine("\n" + new string('═', 60));
+    Console.WriteLine("  AUDITORÍA COMPLETA DE ÍNDICE VECTORIAL (AWS S3 VECTORS)");
+    Console.WriteLine(new string('═', 60));
+    Console.WriteLine($" Bucket configurado: {settings.S3Vectors.BucketName}");
+    Console.WriteLine($" 1) Índice texto  : {settings.S3Vectors.IndexName}");
+    Console.WriteLine($" 2) Índice imagen : {settings.S3Vectors.ImageIndexName}");
+    Console.Write(" Selecciona índice a auditar [1]: ");
+
+    var selected = Console.ReadLine();
+    var indexName = selected == "2"
+        ? settings.S3Vectors.ImageIndexName
+        : settings.S3Vectors.IndexName;
+
+    Console.WriteLine("\n Consultando AWS y recorriendo todas las páginas...");
+
+    try
+    {
+        var audit = await chatbotService.ListAllVectorsAsync(indexName, returnData: false, pageSize: 500);
+
+        Console.WriteLine($"✓ Auditoría finalizada");
+        Console.WriteLine($"   - Índice: {audit.IndexName}");
+        Console.WriteLine($"   - Páginas leídas: {audit.PagesFetched}");
+        Console.WriteLine($"   - Total vectores: {audit.TotalVectors}");
+        Console.WriteLine();
+
+        if (audit.TotalVectors == 0)
+        {
+            Console.WriteLine("⚠️  El índice está vacío.");
+            return;
+        }
+
+        Console.WriteLine(" Listado completo de vectores:");
+        for (int i = 0; i < audit.Vectors.Count; i++)
+        {
+            var item = audit.Vectors[i];
+            var metadataShort = string.Join(" | ", item.Metadata.Select(kvp => $"{kvp.Key}: {kvp.Value}"));
+            Console.WriteLine($"{i + 1,4}. Key={item.Key} | dims={item.Dimensions} | {metadataShort}");
+        }
+
+        // Guardar reporte completo para revisión posterior
+        var safeIndexName = new string(indexName.Select(ch =>
+            Path.GetInvalidFileNameChars().Contains(ch) ? '_' : ch).ToArray());
+        var reportDir = Path.Combine(Environment.CurrentDirectory, "Ramas", "diagnostico_vectores");
+        Directory.CreateDirectory(reportDir);
+        var reportPath = Path.Combine(
+            reportDir,
+            $"audit_{safeIndexName}_{DateTime.Now:yyyyMMdd_HHmmss}.json");
+
+        var json = JsonSerializer.Serialize(audit, new JsonSerializerOptions { WriteIndented = true });
+        await File.WriteAllTextAsync(reportPath, json);
+
+        Console.WriteLine();
+        Console.WriteLine($" Reporte JSON completo guardado en:");
+        Console.WriteLine($"   {reportPath}");
+        Console.WriteLine(" (Incluye todos los vectores y metadata retornada por AWS)");
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($" Error al auditar índice: {ex.Message}");
     }
 }

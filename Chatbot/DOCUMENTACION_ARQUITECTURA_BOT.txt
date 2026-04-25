@@ -1,0 +1,117 @@
+DOCUMENTACION TECNICA - HIGHLANDSBOT
+====================================
+
+1) DONDE SE HACE LA BUSQUEDA SEMANTICA (RAG)
+-------------------------------------------
+La busqueda semantica de texto se ejecuta en:
+- Chatbot/Services/ChatbotService.cs
+  Metodo: AskQuestionAsync(string userQuestion)
+
+Flujo exacto:
+1. Se genera embedding de la pregunta del usuario con Bedrock/Titan
+   (serviceId: text-embeddings).
+2. Se consulta AWS S3 Vectors con QueryVectorsAsync (TopK = 5).
+3. Se elige el vector de menor distancia.
+4. Si distancia > MaxQueryDistance, responde fallback de "no encontrado".
+5. Si hay match valido, toma metadata (question/answer) y arma contexto.
+6. Manda contexto + pregunta a DeepSeek para redactar respuesta final.
+
+Consulta vectorial:
+- Chatbot/Services/ChatbotService.cs
+  Metodo: QueryS3VectorsAsync(...)
+
+Ingestion (carga de base vectorial desde JSON):
+- Chatbot/Program.cs
+  Metodo local: LoadQuestionsAsync(...)
+- Chatbot/Services/ChatbotService.cs
+  Metodo: LoadQuestionsToVectorStoreAsync(...)
+
+2) TECNOLOGIAS QUE SE USAN Y EN QUE PARTE
+-----------------------------------------
+Backend/API:
+- ASP.NET Core (.NET)
+- Archivo principal: Chatbot/Program.cs
+- Webhook: Chatbot/Controllers/WhatsAppController.cs
+
+Embeddings y RAG:
+- AWS Bedrock (Titan embeddings)
+- Semantic Kernel
+- AWS S3 Vectors (almacen vectorial)
+- Archivos: Chatbot/Services/ChatbotService.cs, Chatbot/Services/S3VectorsIndexManager.cs
+
+Respuesta final al usuario:
+- DeepSeek API
+- Archivo: Chatbot/Services/DeepSeekAiService.cs
+
+Audio a texto:
+- Vosk + Concentus (Ogg/Opus)
+- Archivo: Chatbot/Services/VoskTranscriptionService.cs
+
+Canal WhatsApp:
+- whatsapp-web.js (Node)
+- Express + Axios
+- Bridge: Chatbot/Bridge/index.js
+
+3) FLUJO DE AUDIO WHATSAPP
+--------------------------
+1. Bridge recibe mensaje y detecta media/audio.
+2. Bridge manda payload JSON al backend con:
+   - IsAudio
+   - audioBase64
+   - audioMimeType
+3. Backend en WhatsAppController.ResolveMessageTextAsync:
+   - decodifica base64
+   - transcribe con Vosk
+   - aplica timeout de seguridad
+4. Texto transcrito pasa a AskQuestionAsync (RAG normal).
+
+4) COMO "VER" LA BASE VECTORIAL DESDE WHATSAPP
+-----------------------------------------------
+Desde WhatsApp no existe una vista directa de la base vectorial.
+WhatsApp solo consume respuestas finales.
+
+Formas reales de inspeccionar:
+A) Desde codigo/AWS:
+   - Revisar indices en S3 Vectors (AWS SDK/Console).
+B) Desde pruebas funcionales:
+   - Hacer preguntas por WhatsApp y validar respuestas.
+C) Opcion recomendada para debug (si se implementa):
+   - comando admin por WhatsApp que devuelva top match, distancia y metadata.
+
+5) LIMPIEZA REALIZADA (CODIGO NO USADO)
+---------------------------------------
+Se removieron partes de Twilio que no se usan en el flujo actual (Node Bridge):
+- Eliminado: Chatbot/Models/TwilioSettings.cs
+- Eliminado: Chatbot/Models/TwilioWebhookPayload.cs
+- Eliminado: Chatbot/Services/Gym/TwilioWhatsAppAdapter.cs
+- Eliminado package Twilio en Chatbot/Chatbot.csproj
+- Eliminada configuracion Twilio en:
+  - Chatbot/appsettings.json
+  - Chatbot/appsettings.example.json
+- Eliminado registro de TwilioSettings en Program.cs
+- Ajustados comentarios/documentacion que mencionaban Twilio
+
+Se removieron tambien metodos locales no usados en Program.cs:
+- LoadImagesAsync(...)
+- ChatbotModeAsync(...)
+
+Resultado:
+- Menos codigo muerto
+- Menos dependencias
+- Menor confusión en mantenimiento
+
+6) PARAMETROS CLAVE DE RAG
+--------------------------
+Archivo: Chatbot/appsettings.json
+- S3Vectors.MaxQueryDistance: controla sensibilidad del match
+  (mas alto = mas permisivo, mas riesgo de respuestas menos precisas)
+
+Archivo: Chatbot/Services/ChatbotService.cs
+- QueryS3VectorsAsync usa TopK = 5.
+- AskQuestionAsync escoge el vector con menor distancia.
+
+7) NOTAS DE OPERACION
+---------------------
+- Si cambias datos_gimnasio.json, debes recargar vectores (opcion 1 del menu).
+- Si aparece "address already in use", ya hay una instancia en el puerto 5000.
+- Puedes arrancar en otro puerto con ASPNETCORE_URLS.

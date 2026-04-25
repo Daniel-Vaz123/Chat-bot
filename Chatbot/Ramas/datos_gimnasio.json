@@ -1,136 +1,1298 @@
 {
-  "id": "gimnasio-rag-v1",
+  "id": "gimnasio-rag-v3-pro",
   "name": "GimnasioBot",
-  "speciality": "Atención y soporte informativo para gimnasio",
-  "description": "Base de conocimiento para responder preguntas frecuentes de clientes y prospectos del gimnasio.",
+  "speciality": "Atención, soporte informativo y ventas para gimnasio",
+  "description": "Base de conocimiento profunda para sistema RAG. Abarca horarios, costos, servicios, instalaciones, reglas y escenarios administrativos para clientes y prospectos.",
   "endSessionMessage": "La sesión ha finalizado. Gracias por contactarnos.",
-  "unknownMessage": "No encontré esa información en la base actual. Si quieres, te ayudo con horarios, costos, reglas o servicios.",
-  "byeMessage": "Gracias por escribirnos. ¡Te esperamos en el gimnasio!",
+  "unknownMessage": "No encontré esa información exacta en mi base actual. Te puedo ayudar con horarios, mensualidades, promociones, reglas, cancelaciones o servicios.",
+  "byeMessage": "Gracias por escribirnos. ¡Te esperamos en el gimnasio para entrenar con todo!",
   "qa_pairs": [
     {
       "question": "Cuáles son los horarios del gimnasio",
-      "answer": "Abrimos de lunes a viernes de 5:00 AM a 11:00 PM. Los sábados de 7:00 AM a 5:00 PM y los domingos de 8:00 AM a 2:00 PM. En días festivos oficiales abrimos medio turno de 8:00 AM a 2:00 PM.",
-      "type": "horarios",
+      "answer": "Abrimos de lunes a viernes de 5:00 AM a 11:00 PM. Los sábados de 7:00 AM a 5:00 PM y domingos de 8:00 AM a 2:00 PM.",
+      "type": "horario_general",
       "deep": 2,
-      "category": "general"
+      "category": "horarios"
     },
     {
-      "question": "Ayúdame con los horarios o a qué hora abren",
-      "answer": "Abrimos de lunes a viernes de 5:00 AM a 11:00 PM. Los sábados de 7:00 AM a 5:00 PM y los domingos de 8:00 AM a 2:00 PM. En días festivos oficiales abrimos medio turno de 8:00 AM a 2:00 PM.",
-      "type": "horarios",
+      "question": "A qué hora abren entre semana",
+      "answer": "De lunes a viernes abrimos nuestras puertas desde las 5:00 AM y cerramos a las 11:00 PM.",
+      "type": "horario_semana",
       "deep": 2,
-      "category": "general"
+      "category": "horarios"
     },
     {
-      "question": "Cuánto cuesta la mensualidad o suscripción",
-      "answer": "La mensualidad básica cuesta $499 MXN e incluye acceso al área de pesas y cardiovascular. La membresía Black cuesta $699 MXN al mes e incluye acceso a todas nuestras sucursales, sillones de masaje, clases grupales ilimitadas y puedes llevar un invitado los fines de semana.",
-      "type": "precios",
+      "question": "Horarios de fin de semana sábado y domingo",
+      "answer": "Los sábados abrimos de 7:00 AM a 5:00 PM y los domingos tenemos un horario de 8:00 AM a 2:00 PM.",
+      "type": "horario_fin_semana",
       "deep": 2,
-      "category": "ventas"
+      "category": "horarios"
     },
     {
-      "question": "Cuál es el costo de la inscripción y el mantenimiento anual",
-      "answer": "La inscripción tiene un costo único de $300 MXN en cualquier plan, pero frecuentemente tenemos promociones donde es gratis. Existe un cobro de mantenimiento anual de $450 MXN que se cobra el tercer mes de tu membresía para renovar equipos.",
-      "type": "precios",
+      "question": "Abren en días festivos o puente",
+      "answer": "En días festivos oficiales (como el 16 de septiembre o 20 de noviembre) operamos con horario de medio turno: de 8:00 AM a 2:00 PM.",
+      "type": "horario_festivos",
       "deep": 2,
-      "category": "ventas"
+      "category": "horarios"
     },
     {
-      "question": "Tienen entrenadores personalizados o rutinas",
-      "answer": "Sí, nuestros entrenadores de piso te organizan una rutina básica sin costo adicional. Si deseas un entrenador personal exclusivo toda tu sesión, el costo es de $250 MXN por hora o paquetes de 10 sesiones por $2,000 MXN.",
-      "type": "servicios",
+      "question": "Abren en Navidad, Año Nuevo, 24 o 31 de diciembre",
+      "answer": "Los días 25 de diciembre y 1 de enero cerramos totalmente por descanso del personal. Los días 24 y 31 de diciembre abrimos con horario especial de 6:00 AM a 2:00 PM.",
+      "type": "horario_diciembre",
       "deep": 2,
-      "category": "entrenamiento"
+      "category": "horarios"
     },
     {
-      "question": "Cuáles son las reglas de higiene y equipo del gimnasio",
-      "answer": "1) El uso de toalla facial es obligatorio para limpiar colchonetas y aparatos tras su uso. 2) Debes usar calzado deportivo limpio y ropa deportiva adecuada. 3) Está prohibido usar mezclilla. 4) Es obligatorio descargar las máquinas y guardar las mancuernas en los racks al finalizar.",
-      "type": "reglas",
+      "question": "Cuál es el horario de Semana Santa",
+      "answer": "Jueves y Viernes Santo operamos con horario de día festivo, de 8:00 AM a 2:00 PM. El sábado y domingo de esa semana abrimos en horario normal de fin de semana.",
+      "type": "horario_semana_santa",
       "deep": 2,
-      "category": "general"
+      "category": "horarios"
     },
     {
-      "question": "Cuáles son las reglas de conducta y convivencia",
-      "answer": "Está prohibido amedrentar, faltar al respeto o acosar al personal u otros socios. No se permite gritar de forma escandalosa ni azotar bruscamente el equipo. Evita monopolizar las máquinas y permite rotar series con otras personas.",
-      "type": "reglas",
+      "question": "A qué hora hay menos gente o está más vacío",
+      "answer": "Las horas de menor afluencia (hora valle) suelen ser entre las 10:00 AM y las 4:00 PM. Las horas pico son de 6:00 AM a 8:00 AM y de 6:00 PM a 9:00 PM.",
+      "type": "horario_afluencia",
       "deep": 2,
-      "category": "general"
+      "category": "horarios"
     },
     {
-      "question": "Se pueden llevar invitados",
-      "answer": "Sí. Con membresía básica el pase de invitado cuesta $100 MXN al día. Si tienes membresía Black, puedes ingresar con un invitado gratis de viernes a domingo.",
-      "type": "pases",
+      "question": "Puedo entrar 10 minutos antes de que cierren",
+      "answer": "El último acceso permitido es 30 minutos antes de la hora de cierre. Esto para que tengas tiempo de entrenar y el personal pueda realizar la limpieza a tiempo.",
+      "type": "horario_cierre",
       "deep": 2,
-      "category": "ventas"
+      "category": "horarios"
+    },
+    {
+      "question": "Tienen horario 24 horas",
+      "answer": "Actualmente no somos un gimnasio 24/7. Nuestro horario máximo de cierre es a las 11:00 PM de lunes a viernes.",
+      "type": "horario_24h",
+      "deep": 2,
+      "category": "horarios"
+    },
+    {
+      "question": "A qué hora son las clases grupales",
+      "answer": "Las clases matutinas (Zumba/Body Combat) inician a las 8:00 AM. Las clases vespertinas (Spinning/Box) comienzan a partir de las 6:00 PM. Puedes pedir el calendario completo en recepción.",
+      "type": "horario_clases",
+      "deep": 2,
+      "category": "horarios"
+    },
+    {
+      "question": "Cuánto cuesta la mensualidad, precios o paquetes",
+      "answer": "Contamos con dos planes: Plan Básico por $499 MXN mensuales (acceso área de pesas y cardio) y Plan Black por $699 MXN mensuales (multisucursal, clases, sillones de masaje e invitados en fin de semana).",
+      "type": "precio_mensualidad",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Cobran inscripción",
+      "answer": "La cuota de inscripción es de $300 MXN. Sin embargo, frecuentemente lanzamos promociones a principio de mes donde la inscripción es totalmente gratis al pagar tu primera mensualidad.",
+      "type": "precio_inscripcion",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Qué es el cobro de mantenimiento anual y cuánto cuesta",
+      "answer": "Es una cuota de $450 MXN que se utiliza para la renovación de aparatos, mantenimiento de instalaciones y mejoras. Se cobra una sola vez al año, durante tu tercer mes de membresía.",
+      "type": "precio_mantenimiento",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Se puede pagar por visita o pase por día",
+      "answer": "Sí, el pase por día o visita única tiene un costo de $100 MXN. Si decides inscribirte ese mismo día, te descontamos esos $100 de tu primera mensualidad.",
+      "type": "precio_visita",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Se puede pagar un año completo o anualidad",
+      "answer": "Sí, si pagas tu anualidad por adelantado te hacemos un gran descuento: pagas el equivalente a 10 meses y te regalamos 2 meses gratis, además de exentar el pago de mantenimiento y de inscripción.",
+      "type": "precio_anualidad",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Tienen descuento para estudiantes",
+      "answer": "Ofrecemos un 15% de descuento en la mensualidad del Plan Básico si presentas en recepción tu credencial de estudiante vigente (preparatoria o universidad).",
+      "type": "precio_promociones",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Formas de pago, aceptan tarjeta o efectivo",
+      "answer": "Aceptamos tarjetas de crédito y débito (Visa, Mastercard, American Express), pago en efectivo en mostrador y transferencias bancarias SPEI.",
+      "type": "pago_metodos",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Puedo domiciliar mi pago mensual",
+      "answer": "Sí, recomendamos domiciliar el pago a tu tarjeta de crédito o débito para evitar recargos por pago tardío. Puedes activarlo directo en recepción o en nuestra app.",
+      "type": "pago_domiciliacion",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Cobran recargos si me atraso en el pago",
+      "answer": "Tienes 3 días de tolerancia después de tu fecha de corte. A partir del cuarto día de atraso, el sistema genera un cargo por pago tardío de $50 MXN.",
+      "type": "pago_recargos",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Me pueden dar factura",
+      "answer": "Sí facturamos. Solicita tu factura durante el mes en curso enviando tu ticket y Constancia de Situación Fiscal al correo facturacion@gimnasio.com. Se emite con uso de CFDI 'Gastos en General'.",
+      "type": "pago_facturacion",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Tienen entrenadores de piso o rutinas",
+      "answer": "Sí, siempre hay entrenadores de piso disponibles sin costo extra. Ellos pueden orientarte sobre el uso correcto de las máquinas y apoyarte con una rutina general si eres principiante.",
+      "type": "servicio_entrenador_piso",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Cuánto cuesta un entrenador personal",
+      "answer": "Si quieres un Entrenador Personal (Personal Trainer) exclusivo para ti durante toda la sesión, el costo es de $250 MXN por hora, o puedes comprar un paquete de 10 sesiones por $2,000 MXN.",
+      "type": "servicio_entrenador_personal",
+      "deep": 2,
+      "category": "servicios"
     },
     {
       "question": "Cuentan con servicio de regaderas y lockers",
-      "answer": "Sí, los baños incluyen regaderas con agua caliente, vestidores y lockers de uso diario sin costo extra. El locker es prestado mientras entrenas; si dejas candado fuera de horario, el personal puede retirarlo.",
-      "type": "instalaciones",
+      "answer": "Las mensualidades incluyen uso gratuito de vestidores, baños, regaderas con agua caliente y lockers de tránsito. Recuerda traer tu propio candado; debes retirarlo al salir ese mismo día.",
+      "type": "servicio_lockers",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Tienen vapor, sauna o alberca",
+      "answer": "Contamos con área de cuarto de vapor dentro de los vestidores, incluido en tu mensualidad. Por el momento no contamos con alberca ni sauna seco.",
+      "type": "servicio_vapor",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Hay estacionamiento",
+      "answer": "Contamos con estacionamiento. Es gratuito las primeras 2.5 horas sellando tu boleto en recepción. Si te pasas de ese tiempo, la hora o fracción extra tiene un costo de $15 MXN.",
+      "type": "servicio_estacionamiento",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Ofrecen clases grupales (zumba, yoga, spinning, box)",
+      "answer": "Tenemos un salón de usos múltiples equipado. Ofrecemos clases de Zumba, Spinning, Body Combat y Yoga. Todas están incluidas sin límite si cuentas con la membresía Black.",
+      "type": "servicio_clases",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Tienen servicio de nutriólogo",
+      "answer": "Sí, tenemos nutriología deportiva. Tu primera evaluación está incluida al inscribirte. Las consultas subsecuentes de seguimiento tienen un precio preferencial de $250 MXN e incluyen plan de alimentación.",
+      "type": "servicio_nutricion",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Tienen báscula InBody o medidor de grasa",
+      "answer": "Contamos con báscula genérica gratuita. Además, tenemos tecnología InBody (análisis de composición corporal). El escaneo InBody está incluido en tu consulta de nutrición, o cuesta $100 MXN individual.",
+      "type": "servicio_inbody",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Venden suplementos, proteína o agua",
+      "answer": "En la recepción tenemos a la venta botellas de agua, bebidas deportivas, barras energéticas, pre-entrenos y scoops individuales de proteína en polvo de diferentes marcas.",
+      "type": "servicio_tienda",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Tienen Wi-Fi para clientes",
+      "answer": "Ofrecemos conexión a nuestra red Wi-Fi exclusiva para socios de forma gratuita. Los códigos QR para escanear y conectarte están ubicados en la recepción y espejos de vestidores.",
+      "type": "servicio_wifi",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "A partir de qué edad pueden entrar al gimnasio",
+      "answer": "La edad mínima requerida es de 14 años. Los menores de entre 14 y 17 años deben ser inscritos presencialmente por su padre, madre o tutor legal. A partir de los 18 años el trámite es individual.",
+      "type": "reglas_edad",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Qué ropa y zapatos debo llevar",
+      "answer": "Es obligatorio entrenar con ropa deportiva cómoda y tenis cerrados limpios. Por higiene y cuidado de los equipos, está estrictamente prohibido entrenar con pantalones de mezclilla, sandalias o descalzo.",
+      "type": "reglas_vestimenta",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "El uso de toalla es obligatorio",
+      "answer": "Sí, es requisito indispensable llevar una toalla facial. Debes utilizarla para secar tu sudor de los bancos, colchonetas y máquinas de cardio una vez que termines de utilizarlas.",
+      "type": "reglas_toalla",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo poner mi propia música en bocinas",
+      "answer": "Por respeto a todos los usuarios, no está permitido el uso de bocinas personales en el área de entrenamiento. Si deseas escuchar tu propia música, debes usar audífonos.",
+      "type": "reglas_musica",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo llevar a mi perro o es pet friendly",
+      "answer": "Para prevenir accidentes con los equipos de peso y por políticas de sanidad, no permitimos el ingreso de mascotas. Solo se admite el acceso a perros guía o de asistencia con su certificación.",
+      "type": "reglas_mascotas",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Qué hago si olvidé o perdí mi tarjeta de acceso o QR",
+      "answer": "Si la olvidaste un día, presenta una identificación oficial en recepción para acceder. Si la perdiste definitivamente, el trámite de reposición de tarjeta física cuesta $100 MXN.",
+      "type": "admin_acceso_perdido",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Cómo puedo cancelar mi suscripción",
+      "answer": "Para cancelar tu membresía sin generar adeudos, debes avisar en la recepción al menos 15 días antes de tu próxima fecha de corte mensual. No hay plazos forzosos.",
+      "type": "admin_cancelacion",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo congelar mi mensualidad si salgo de viaje",
+      "answer": "Sí, puedes pausar o 'congelar' tu membresía por motivos personales o de viaje hasta por 2 meses. Este trámite tiene un cargo administrativo de $100 MXN.",
+      "type": "admin_congelar",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo pausar por embarazo, operación o lesión",
+      "answer": "En casos de incapacidad médica mayor (fracturas, cirugías o embarazo), te permitimos congelar tu membresía hasta por 6 meses sin ningún costo administrativo. Solo requieres presentar receta o certificado médico.",
+      "type": "admin_medico",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Perdí un objeto, tienen objetos perdidos",
+      "answer": "Contamos con una caja de objetos perdidos en el mostrador. Guardamos artículos olvidados por un máximo de 15 días. Te sugerimos siempre usar candado, ya que el gimnasio no responde por objetos de valor fuera de lockers cerrados.",
+      "type": "admin_objetos_perdidos",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Qué pasa si me lesiono dentro del gimnasio",
+      "answer": "El personal de staff está capacitado en primeros auxilios. Además, tu pago de mantenimiento anual incluye una póliza de seguro de gastos médicos menores por accidentes ocurridos usando correctamente las instalaciones.",
+      "type": "admin_seguro",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Se pueden llevar invitados a entrenar",
+      "answer": "Con membresía Black puedes llevar a un invitado gratis de viernes a domingo (un invitado por visita). Si tienes plan básico, el pase de invitado cuesta $100 MXN.",
+      "type": "reglas_invitados",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Reglas de conducta, botar pesas y comportamiento",
+      "answer": "Es obligatorio descargar las máquinas tras usarlas y regresar las mancuernas al rack. No está permitido azotar los discos desde lo alto, gritar excesivamente, ni acosar o amedrentar a otros socios o al staff.",
+      "type": "reglas_conducta",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Hay promociones por inscripción gratis este mes",
+      "answer": "Sí, regularmente al inicio de cada mes lanzamos campañas donde la inscripción es gratis al pagar tu primera mensualidad.",
+      "type": "promo_inscripcion",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Cuánto cuesta el plan black y qué incluye",
+      "answer": "El Plan Black tiene un costo de $699 MXN mensuales e incluye acceso multisucursal, clases grupales, sillones de masaje e invitados en fin de semana.",
+      "type": "precio_black",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "El plan básico incluye clases",
+      "answer": "No, el Plan Básico incluye únicamente acceso al área de pesas y cardio. Las clases grupales están incluidas en el Plan Black.",
+      "type": "precio_basico_detalle",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Puedo cambiar de plan básico a black",
+      "answer": "Sí, puedes hacer el cambio de plan directamente en recepción pagando la diferencia correspondiente.",
+      "type": "upgrade_plan",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Puedo bajar de plan black a básico",
+      "answer": "Sí, puedes solicitar el cambio de plan en recepción y se aplicará a partir del siguiente periodo de cobro.",
+      "type": "downgrade_plan",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Qué incluye exactamente la mensualidad",
+      "answer": "Incluye acceso a las áreas de pesas, cardio, vestidores, regaderas, lockers de tránsito y asesoría básica por entrenadores de piso.",
+      "type": "servicio_incluye",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Puedo usar el gimnasio todos los días",
+      "answer": "Sí, puedes asistir todos los días dentro de los horarios establecidos sin límite de visitas.",
+      "type": "servicio_acceso",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Hay límite de tiempo para entrenar",
+      "answer": "No hay límite de tiempo mientras estés dentro del horario permitido del gimnasio.",
+      "type": "servicio_tiempo",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Puedo entrar varias veces al día",
+      "answer": "Sí, puedes entrar más de una vez al día siempre que respetes los horarios de operación.",
+      "type": "servicio_reingreso",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Hay aire acondicionado en el gimnasio",
+      "answer": "Sí, contamos con sistema de ventilación y aire acondicionado para mayor comodidad durante tu entrenamiento.",
+      "type": "instalacion_clima",
+      "deep": 2,
+      "category": "instalaciones"
+    },
+    {
+      "question": "El gimnasio tiene buena ventilación",
+      "answer": "Sí, las instalaciones están diseñadas con ventilación adecuada y sistemas de aire para mantener un ambiente cómodo.",
+      "type": "instalacion_ventilacion",
+      "deep": 2,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Hay zona exclusiva para mujeres",
+      "answer": "Actualmente no contamos con un área exclusiva para mujeres, pero todas las áreas son seguras y supervisadas.",
+      "type": "instalacion_mujeres",
+      "deep": 2,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Puedo usar audífonos mientras entreno",
+      "answer": "Sí, el uso de audífonos está permitido y es recomendable para escuchar tu propia música.",
+      "type": "reglas_audio",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo grabar videos dentro del gimnasio",
+      "answer": "Sí, siempre y cuando no interfieras con otros usuarios ni invadas su privacidad.",
+      "type": "reglas_video",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Se pueden tomar fotos en el gym",
+      "answer": "Sí, puedes tomar fotos personales respetando a los demás usuarios.",
+      "type": "reglas_fotos",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Qué pasa si no pago mi mensualidad",
+      "answer": "Si no realizas tu pago, tu acceso será suspendido hasta regularizar tu situación.",
+      "type": "admin_suspension",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Pierdo mi membresía si dejo de pagar",
+      "answer": "No la pierdes inmediatamente, pero se suspende hasta que realices el pago correspondiente.",
+      "type": "admin_estado_pago",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Tienen app para controlar mi membresía",
+      "answer": "Sí, contamos con una app donde puedes consultar tu información, pagos y accesos.",
+      "type": "servicio_app",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Puedo ver mi progreso en la app",
+      "answer": "Sí, en la app puedes consultar registros de actividad y seguimiento básico.",
+      "type": "servicio_app_progreso",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "El gimnasio es bueno para principiantes",
+      "answer": "Sí, contamos con entrenadores que pueden ayudarte si estás comenzando.",
+      "type": "general_principiantes",
       "deep": 2,
       "category": "general"
     },
     {
-      "question": "Dan clases como zumba, box, yoga o spinning",
-      "answer": "Sí, contamos con salón de usos múltiples. Hay Zumba y Body Combat en la mañana (8:00 AM) y tarde (7:00 PM), spinning intensivo a las 6:00 PM y yoga básico los sábados por la mañana. Todas las clases están incluidas en membresía Black.",
-      "type": "clases",
-      "deep": 2,
-      "category": "entrenamiento"
-    },
-    {
-      "question": "Qué métodos de pago manejan",
-      "answer": "Aceptamos tarjetas de crédito y débito (Visa, Mastercard, Amex), pago en efectivo en mostrador y transferencias SPEI. Recomendamos domiciliar el pago automático para evitar recargos por retraso.",
-      "type": "pagos",
-      "deep": 2,
-      "category": "ventas"
-    },
-    {
-      "question": "Puedo congelar o cancelar mi membresía",
-      "answer": "Puedes cancelar tu membresía en cualquier momento avisando a recepción 15 días antes de tu fecha de cobro para evitar cargos extra. Si te lesionas o vas de viaje, puedes congelar tu cuenta hasta por 2 meses con un cargo administrativo de $100 MXN.",
-      "type": "servicios",
-      "deep": 2,
-      "category": "administrativo"
-    },
-    {
-      "question": "Tienen nutricionista",
-      "answer": "Sí. Contamos con servicio de nutriología deportiva presencial y online. La primera evaluación está incluida en tu inscripción. Las siguientes valoraciones tienen costo preferencial de $250 MXN e incluyen plan enfocado en pérdida de grasa o ganancia muscular.",
-      "type": "servicios",
-      "deep": 2,
-      "category": "salud"
-    },
-    {
-      "question": "Qué pasa si pierdo u olvido mi tarjeta de acceso o código QR",
-      "answer": "En caso de pérdida, la reposición del acceso físico tiene un costo de $100 MXN en administración. Si no lo traes un día, presentando una identificación oficial vigente en mostrador te permitimos ingresar.",
-      "type": "accesos",
-      "deep": 2,
-      "category": "administrativo"
-    },
-    {
-      "question": "A partir de qué edad se puede ingresar al gimnasio",
-      "answer": "La edad mínima es de 14 años cumplidos. Se requiere firma presencial de autorización del padre, madre o tutor al inscribirse. A partir de los 18 años el registro es individual.",
-      "type": "edad_minima",
+      "question": "Nunca he ido a un gym puedo entrar",
+      "answer": "Claro, no necesitas experiencia previa. Nuestro personal puede orientarte.",
+      "type": "general_novato",
       "deep": 2,
       "category": "general"
     },
     {
-      "question": "Cuentan con báscula e InBody",
-      "answer": "Tenemos una báscula genérica de uso gratuito en vestidores. También contamos con equipo InBody para medición de porcentaje de grasa y masa muscular; si compras una consulta nutricional está incluido, de lo contrario el escaneo individual cuesta $100 MXN.",
-      "type": "instalaciones",
+      "question": "Qué máquinas tienen disponibles",
+      "answer": "Contamos con caminadoras, elípticas, bicicletas, máquinas de fuerza y área de peso libre.",
+      "type": "instalacion_maquinas",
       "deep": 2,
-      "category": "salud"
+      "category": "instalaciones"
     },
     {
-      "question": "Hola",
-      "answer": "Hola, bienvenido al gimnasio. Puedo ayudarte con horarios, precios, membresías, reglas, clases y servicios.",
-      "type": "saludo",
-      "deep": 1,
+      "question": "Hay área de pesas libres",
+      "answer": "Sí, contamos con una zona completa de peso libre con mancuernas y barras.",
+      "type": "instalacion_pesas",
+      "deep": 2,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Hay seguridad dentro del gimnasio",
+      "answer": "Sí, contamos con cámaras y personal para garantizar la seguridad de los usuarios.",
+      "type": "seguridad",
+      "deep": 2,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Puedo entrenar si estoy lesionado",
+      "answer": "Sí, pero te recomendamos consultar con un médico y avisar al entrenador para adaptar tu rutina.",
+      "type": "salud_lesion",
+      "deep": 2,
       "category": "general"
     },
     {
-      "question": "Quiero información",
-      "answer": "Con gusto. Puedo darte información sobre horarios, costos, inscripción, clases, invitados, reglas, nutrición y métodos de pago.",
-      "type": "saludo",
-      "deep": 1,
+      "question": "Puedo entrenar embarazada",
+      "answer": "Sí, con autorización médica y supervisión adecuada.",
+      "type": "salud_embarazo",
+      "deep": 2,
+      "category": "general"
+    },
+    {
+      "question": "El gimnasio está lleno en la noche",
+      "answer": "Sí, las horas pico suelen ser por la tarde-noche entre 6:00 PM y 9:00 PM.",
+      "type": "horario_pico",
+      "deep": 2,
+      "category": "horarios"
+    },
+    {
+      "question": "Cuál es la mejor hora para ir",
+      "answer": "Las horas con menor afluencia son entre 10:00 AM y 4:00 PM.",
+      "type": "horario_recomendado",
+      "deep": 2,
+      "category": "horarios"
+    },
+    {
+      "question": "Puedo pagar en línea",
+      "answer": "Sí, puedes realizar pagos en línea o por transferencia bancaria.",
+      "type": "pago_online",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Aceptan transferencias",
+      "answer": "Sí, aceptamos transferencias SPEI.",
+      "type": "pago_transferencia",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Puedo probar el gimnasio antes de inscribirme",
+      "answer": "Sí, contamos con pase de día para que conozcas las instalaciones.",
+      "type": "servicio_prueba",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "El gimnasio está limpio",
+      "answer": "Sí, realizamos limpieza constante en todas las áreas.",
+      "type": "instalacion_limpieza",
+      "deep": 2,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Puedo cambiar mi método de pago",
+      "answer": "Sí, puedes hacerlo directamente en recepción.",
+      "type": "admin_pago_cambio",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Puedo entrenar sin membresía",
+      "answer": "Sí, puedes adquirir un pase de día.",
+      "type": "general_sin_membresia",
+      "deep": 2,
+      "category": "general"
+    },
+    {
+      "question": "Si pago hoy en la noche mi membresía desde cuándo empieza a contar",
+      "answer": "Tu membresía comienza a partir del momento en que se registra el pago, independientemente de la hora.",
+      "type": "inicio_membresia",
+      "deep": 3,
+      "category": "costos"
+    },
+    {
+      "question": "Si entro faltando 20 minutos para cerrar me dejan pasar",
+      "answer": "El último acceso permitido es 30 minutos antes del cierre, por lo que podría no ser posible ingresar.",
+      "type": "acceso_limite",
+      "deep": 3,
+      "category": "horarios"
+    },
+    {
+      "question": "Si dejo mis cosas en locker todo el día pasa algo",
+      "answer": "Los lockers son de uso temporal. Debes retirar tus pertenencias al salir, de lo contrario podrían ser retiradas por el personal.",
+      "type": "locker_tiempo",
+      "deep": 3,
+      "category": "servicios"
+    },
+    {
+      "question": "Si me atraso una semana en pagar me cobran doble",
+      "answer": "No se cobra doble mensualidad, pero sí pueden generarse recargos por atraso según la política vigente.",
+      "type": "pago_atraso",
+      "deep": 3,
+      "category": "costos"
+    },
+    {
+      "question": "Si pago anual y me quiero salir me regresan dinero",
+      "answer": "Los pagos anuales no son reembolsables, ya que incluyen descuentos especiales por compromiso.",
+      "type": "reembolso_anual",
+      "deep": 3,
+      "category": "costos"
+    },
+    {
+      "question": "Si voy acompañado puedo entrar con la misma membresía",
+      "answer": "No, cada persona necesita su propia membresía o pagar pase de día, salvo beneficios específicos como invitados en plan Black.",
+      "type": "invitados_regla",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo prestar mi membresía a otra persona",
+      "answer": "No, la membresía es personal e intransferible.",
+      "type": "prestamo_membresia",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Si voy solo un día al mes me conviene pagar mensualidad",
+      "answer": "En ese caso podría convenirte más pagar pases por día en lugar de una mensualidad completa.",
+      "type": "recomendacion_pago",
+      "deep": 3,
+      "category": "costos"
+    },
+    {
+      "question": "Si cambio de ciudad puedo usar mi membresía",
+      "answer": "Solo si cuentas con plan multisucursal como el Plan Black, de lo contrario debes acudir a tu sucursal registrada.",
+      "type": "multisucursal",
+      "deep": 3,
+      "category": "servicios"
+    },
+    {
+      "question": "Si no uso el gimnasio todo el mes me lo reponen",
+      "answer": "No, la membresía se activa por tiempo, no por uso.",
+      "type": "uso_membresia",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo entrar si olvidé pagar pero aún no vence",
+      "answer": "Sí, puedes entrar mientras tu membresía siga vigente.",
+      "type": "acceso_vigente",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Si llego y está lleno me dejan pasar",
+      "answer": "El acceso depende de la capacidad operativa. En horas pico podría haber control de acceso.",
+      "type": "capacidad",
+      "deep": 3,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Si dejo de ir varios meses sigo debiendo",
+      "answer": "Sí, si no cancelaste formalmente tu membresía, el sistema puede seguir generando cargos.",
+      "type": "deuda_inactividad",
+      "deep": 3,
+      "category": "costos"
+    },
+    {
+      "question": "Puedo pagar solo días específicos cada semana",
+      "answer": "Actualmente no manejamos planes por días, solo mensualidades o pases diarios.",
+      "type": "plan_dias",
+      "deep": 3,
+      "category": "costos"
+    },
+    {
+      "question": "Si voy en la madrugada puedo quedarme hasta que abran",
+      "answer": "No, el acceso está limitado estrictamente al horario de operación.",
+      "type": "horario_limite",
+      "deep": 3,
+      "category": "horarios"
+    },
+    {
+      "question": "Puedo apartar una máquina",
+      "answer": "No está permitido apartar máquinas; el uso es por orden de llegada.",
+      "type": "regla_maquinas",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Si alguien está usando una máquina mucho tiempo puedo reportarlo",
+      "answer": "Sí, puedes avisar al personal para que intervenga si hay mal uso de equipos.",
+      "type": "reporte_usuario",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo dejar mi mochila en el piso mientras entreno",
+      "answer": "No es recomendable por seguridad. Se sugiere usar lockers.",
+      "type": "seguridad_objetos",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Si sudo mucho puedo limpiar las máquinas yo mismo",
+      "answer": "Sí, es obligatorio limpiar los equipos después de usarlos.",
+      "type": "higiene",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo entrenar sin camiseta",
+      "answer": "No, por normas de higiene es obligatorio usar ropa deportiva adecuada.",
+      "type": "vestimenta",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Si llevo invitado y no entra conmigo lo dejan pasar",
+      "answer": "No, el titular debe estar presente para el acceso del invitado.",
+      "type": "invitado_control",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo cambiar mi rutina cada semana con entrenador",
+      "answer": "Sí, puedes solicitar ajustes en tu rutina con el entrenador de piso.",
+      "type": "rutina_cambio",
+      "deep": 3,
+      "category": "servicios"
+    },
+    {
+      "question": "Si nunca he usado máquinas me ayudan",
+      "answer": "Sí, los entrenadores pueden enseñarte el uso correcto.",
+      "type": "apoyo_nuevo",
+      "deep": 3,
+      "category": "servicios"
+    },
+    {
+      "question": "Puedo entrenar todos los días sin problema",
+      "answer": "Sí, pero se recomienda equilibrar el descanso según tus objetivos.",
+      "type": "frecuencia",
+      "deep": 3,
+      "category": "general"
+    },
+    {
+      "question": "Si entreno mucho tiempo seguido es malo",
+      "answer": "Depende de tu condición física. Se recomienda asesorarte con un entrenador.",
+      "type": "salud_entrenamiento",
+      "deep": 3,
+      "category": "general"
+    },
+    {
+      "question": "Puedo usar el celular mientras entreno",
+      "answer": "Sí, siempre que no interfiera con otros usuarios.",
+      "type": "uso_celular",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo hacer videollamadas dentro del gym",
+      "answer": "No es recomendable, ya que puede afectar la privacidad de otros usuarios.",
+      "type": "videollamadas",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo llevar mi propia proteína",
+      "answer": "Sí, puedes consumir tus propios suplementos.",
+      "type": "suplementos",
+      "deep": 3,
+      "category": "servicios"
+    },
+    {
+      "question": "Puedo vender cosas dentro del gimnasio",
+      "answer": "No está permitido vender productos dentro de las instalaciones.",
+      "type": "venta_regla",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Si hay falla de luz el gimnasio sigue abierto",
+      "answer": "Dependerá de la situación, pero por seguridad podría suspenderse el servicio temporalmente.",
+      "type": "fallas_servicio",
+      "deep": 3,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Si llueve fuerte el gimnasio cierra",
+      "answer": "Normalmente no, solo en casos extremos que afecten la seguridad.",
+      "type": "clima",
+      "deep": 3,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Puedo reservar clases con anticipación",
+      "answer": "Sí, puedes hacerlo dependiendo de la disponibilidad en recepción o app.",
+      "type": "clases_reserva",
+      "deep": 3,
+      "category": "servicios"
+    },
+    {
+      "question": "Si llego tarde a clase puedo entrar",
+      "answer": "Depende del instructor, pero generalmente hay tolerancia limitada.",
+      "type": "clases_tiempo",
+      "deep": 3,
+      "category": "servicios"
+    },
+    {
+      "question": "Puedo cambiarme en el baño si no uso vestidor",
+      "answer": "Sí, pero se recomienda usar vestidores por comodidad.",
+      "type": "vestidor_opcion",
+      "deep": 3,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Puedo dejar mi carro todo el día en estacionamiento",
+      "answer": "El estacionamiento es solo para usuarios activos durante su visita.",
+      "type": "estacionamiento_regla",
+      "deep": 3,
+      "category": "servicios"
+    },
+    {
+      "question": "Si me quedo más tiempo me cobran estacionamiento",
+      "answer": "Sí, después del tiempo permitido se generan cargos adicionales.",
+      "type": "estacionamiento_costo",
+      "deep": 3,
+      "category": "servicios"
+    },
+    {
+      "question": "Puedo llevar comida al gimnasio",
+      "answer": "Solo snacks o bebidas ligeras, evitando ensuciar las áreas.",
+      "type": "comida",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo entrenar descalzo en ciertas áreas",
+      "answer": "No, es obligatorio el uso de calzado deportivo.",
+      "type": "calzado",
+      "deep": 3,
+      "category": "reglas"
+    },
+    {
+      "question": "Ayúdame con los precios cuánto cuesta todo",
+      "answer": "Contamos con dos planes: Plan Básico por $499 MXN mensuales (acceso área de pesas y cardio) y Plan Black por $699 MXN mensuales (multisucursal, clases, sillones de masaje e invitados en fin de semana). También hay inscripción, mantenimiento anual y pase por día; pregunta por el concepto que necesites.",
+      "type": "precio_variaciones",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Háblame de las instalaciones qué tienen en el gimnasio",
+      "answer": "Tenemos área de cardio (caminadoras, elípticas, bicicletas), zona de pesas libres y máquinas, vestidores con regaderas, lockers de tránsito, cuarto de vapor en vestidores, estacionamiento con validación en recepción, y limpieza constante. No contamos con alberca ni sauna seco.",
+      "type": "instalaciones_resumen",
+      "deep": 2,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Tienen otras sucursales o multisucursal",
+      "answer": "El Plan Black incluye acceso multisucursal. El Plan Básico es para la sucursal donde te registraste; si cambias de ciudad y solo tienes Básico, debes atenderte en tu sucursal registrada.",
+      "type": "sucursales_faq",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Me puedes decir a que hora abren y cierran",
+      "answer": "Abrimos de lunes a viernes de 5:00 AM a 11:00 PM. Los sábados de 7:00 AM a 5:00 PM y domingos de 8:00 AM a 2:00 PM.",
+      "type": "horario_parafrasis_1",
+      "deep": 2,
+      "category": "horarios"
+    },
+    {
+      "question": "A que hora cierran el sabado y el domingo",
+      "answer": "Los sábados abrimos de 7:00 AM a 5:00 PM y los domingos tenemos un horario de 8:00 AM a 2:00 PM.",
+      "type": "horario_parafrasis_2",
+      "deep": 2,
+      "category": "horarios"
+    },
+    {
+      "question": "El domingo abren hasta que hora",
+      "answer": "Los domingos cerramos a las 2:00 PM (abrimos de 8:00 AM a 2:00 PM).",
+      "type": "horario_parafrasis_3",
+      "deep": 2,
+      "category": "horarios"
+    },
+    {
+      "question": "Estan abiertos en puente o dia festivo",
+      "answer": "En días festivos oficiales (como el 16 de septiembre o 20 de noviembre) operamos con horario de medio turno: de 8:00 AM a 2:00 PM.",
+      "type": "horario_parafrasis_4",
+      "deep": 2,
+      "category": "horarios"
+    },
+    {
+      "question": "Cuando hay menos gente para entrenar tranquilo",
+      "answer": "Las horas de menor afluencia (hora valle) suelen ser entre las 10:00 AM y las 4:00 PM. Las horas pico son de 6:00 AM a 8:00 AM y de 6:00 PM a 9:00 PM.",
+      "type": "horario_parafrasis_5",
+      "deep": 2,
+      "category": "horarios"
+    },
+    {
+      "question": "Tienen clase de spinning o yoga a que hora",
+      "answer": "Las clases matutinas (Zumba/Body Combat) inician a las 8:00 AM. Las clases vespertinas (Spinning/Box) comienzan a partir de las 6:00 PM. Puedes pedir el calendario completo en recepción.",
+      "type": "horario_parafrasis_6",
+      "deep": 2,
+      "category": "horarios"
+    },
+    {
+      "question": "Cuanto sale la mensualidad y que planes manejan",
+      "answer": "Contamos con dos planes: Plan Básico por $499 MXN mensuales (acceso área de pesas y cardio) y Plan Black por $699 MXN mensuales (multisucursal, clases, sillones de masaje e invitados en fin de semana).",
+      "type": "costo_parafrasis_1",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Que tan caro es inscribirme y la mensualidad",
+      "answer": "La cuota de inscripción es de $300 MXN (a veces hay promoción gratis al pagar tu primera mensualidad). Los planes son Plan Básico $499 MXN/mes y Plan Black $699 MXN/mes.",
+      "type": "costo_parafrasis_2",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Me interesa saber tarifas y formas de pago",
+      "answer": "Planes: Básico $499 MXN/mes y Black $699 MXN/mes. Aceptamos tarjetas Visa, Mastercard, American Express, efectivo en mostrador y transferencias SPEI.",
+      "type": "costo_parafrasis_3",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Puedo pagar con transferencia o en efectivo",
+      "answer": "Aceptamos tarjetas de crédito y débito (Visa, Mastercard, American Express), pago en efectivo en mostrador y transferencias bancarias SPEI.",
+      "type": "costo_parafrasis_4",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Me pueden facturar mis pagos",
+      "answer": "Sí facturamos. Solicita tu factura durante el mes en curso enviando tu ticket y Constancia de Situación Fiscal al correo facturacion@gimnasio.com. Se emite con uso de CFDI 'Gastos en General'.",
+      "type": "costo_parafrasis_5",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Si me atraso con el pago que onda",
+      "answer": "Tienes 3 días de tolerancia después de tu fecha de corte. A partir del cuarto día de atraso, el sistema genera un cargo por pago tardío de $50 MXN.",
+      "type": "costo_parafrasis_6",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Hay descuento si soy estudiante universitario",
+      "answer": "Ofrecemos un 15% de descuento en la mensualidad del Plan Básico si presentas en recepción tu credencial de estudiante vigente (preparatoria o universidad).",
+      "type": "costo_parafrasis_7",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Quiero pagar todo el año de una vez hay descuento",
+      "answer": "Sí, si pagas tu anualidad por adelantado te hacemos un gran descuento: pagas el equivalente a 10 meses y te regalamos 2 meses gratis, además de exentar el pago de mantenimiento y de inscripción.",
+      "type": "costo_parafrasis_8",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Cuanto cuesta solo un dia para probar",
+      "answer": "Sí, el pase por día o visita única tiene un costo de $100 MXN. Si decides inscribirte ese mismo día, te descontamos esos $100 de tu primera mensualidad.",
+      "type": "costo_parafrasis_9",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Que es el mantenimiento que cobran una vez al año",
+      "answer": "Es una cuota de $450 MXN que se utiliza para la renovación de aparatos, mantenimiento de instalaciones y mejoras. Se cobra una sola vez al año, durante tu tercer mes de membresía.",
+      "type": "costo_parafrasis_10",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "El plan Black que incluye y cuanto vale",
+      "answer": "El Plan Black tiene un costo de $699 MXN mensuales e incluye acceso multisucursal, clases grupales, sillones de masaje e invitados en fin de semana.",
+      "type": "costo_parafrasis_11",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "El plan basico incluye clases grupales o no",
+      "answer": "No, el Plan Básico incluye únicamente acceso al área de pesas y cardio. Las clases grupales están incluidas en el Plan Black.",
+      "type": "costo_parafrasis_12",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Tienen coach o entrenador personal",
+      "answer": "Si quieres un Entrenador Personal (Personal Trainer) exclusivo para ti durante toda la sesión, el costo es de $250 MXN por hora, o puedes comprar un paquete de 10 sesiones por $2,000 MXN. Además hay entrenadores de piso sin costo extra para orientarte.",
+      "type": "servicio_parafrasis_1",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Hay alguien que me ayude si soy principiante en las maquinas",
+      "answer": "Sí, siempre hay entrenadores de piso disponibles sin costo extra. Ellos pueden orientarte sobre el uso correcto de las máquinas y apoyarte con una rutina general si eres principiante.",
+      "type": "servicio_parafrasis_2",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Tienen regaderas vestidores y casilleros",
+      "answer": "Las mensualidades incluyen uso gratuito de vestidores, baños, regaderas con agua caliente y lockers de tránsito. Recuerda traer tu propio candado; debes retirarlo al salir ese mismo día.",
+      "type": "servicio_parafrasis_3",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Venden agua o snacks en el gym",
+      "answer": "En la recepción tenemos a la venta botellas de agua, bebidas deportivas, barras energéticas, pre-entrenos y scoops individuales de proteína en polvo de diferentes marcas.",
+      "type": "servicio_parafrasis_4",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Tienen nutriologo o dieta deportiva",
+      "answer": "Sí, tenemos nutriología deportiva. Tu primera evaluación está incluida al inscribirte. Las consultas subsecuentes de seguimiento tienen un precio preferencial de $250 MXN e incluyen plan de alimentación.",
+      "type": "servicio_parafrasis_5",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Puedo llevar invitado un amigo",
+      "answer": "Con membresía Black puedes llevar a un invitado gratis de viernes a domingo (un invitado por visita). Si tienes plan básico, el pase de invitado cuesta $100 MXN.",
+      "type": "servicio_parafrasis_6",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Tienen estacionamiento o donde estaciono",
+      "answer": "Contamos con estacionamiento. Es gratuito las primeras 2.5 horas sellando tu boleto en recepción. Si te pasas de ese tiempo, la hora o fracción extra tiene un costo de $15 MXN.",
+      "type": "servicio_parafrasis_7",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Dan clases grupales incluidas",
+      "answer": "Tenemos un salón de usos múltiples equipado. Ofrecemos clases de Zumba, Spinning, Body Combat y Yoga. Todas están incluidas sin límite si cuentas con la membresía Black.",
+      "type": "servicio_parafrasis_8",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Que edad minima para entrar al gym",
+      "answer": "La edad mínima requerida es de 14 años. Los menores de entre 14 y 17 años deben ser inscritos presencialmente por su padre, madre o tutor legal. A partir de los 18 años el trámite es individual.",
+      "type": "regla_parafrasis_1",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo cancelar mi membresia como le hago",
+      "answer": "Para cancelar tu membresía sin generar adeudos, debes avisar en la recepción al menos 15 días antes de tu próxima fecha de corte mensual. No hay plazos forzosos.",
+      "type": "regla_parafrasis_2",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo congelar la mensualidad si viajo",
+      "answer": "Sí, puedes pausar o 'congelar' tu membresía por motivos personales o de viaje hasta por 2 meses. Este trámite tiene un cargo administrativo de $100 MXN.",
+      "type": "regla_parafrasis_3",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Es obligatorio traer toalla",
+      "answer": "Sí, es requisito indispensable llevar una toalla facial. Debes utilizarla para secar tu sudor de los bancos, colchonetas y máquinas de cardio una vez que termines de utilizarlas.",
+      "type": "regla_parafrasis_4",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo entrenar con jeans o sandalias",
+      "answer": "Es obligatorio entrenar con ropa deportiva cómoda y tenis cerrados limpios. Por higiene y cuidado de los equipos, está estrictamente prohibido entrenar con pantalones de mezclilla, sandalias o descalzo.",
+      "type": "regla_parafrasis_5",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Perdi mi tarjeta de acceso que hago",
+      "answer": "Si la olvidaste un día, presenta una identificación oficial en recepción para acceder. Si la perdiste definitivamente, el trámite de reposición de tarjeta física cuesta $100 MXN.",
+      "type": "regla_parafrasis_6",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Que equipos o maquinas tienen en el gym",
+      "answer": "Contamos con caminadoras, elípticas, bicicletas, máquinas de fuerza y área de peso libre. Las instalaciones están limpias y con ventilación y aire acondicionado.",
+      "type": "instala_parafrasis_1",
+      "deep": 2,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Tienen sauna alberca o jacuzzi",
+      "answer": "Contamos con área de cuarto de vapor dentro de los vestidores, incluido en tu mensualidad. Por el momento no contamos con alberca ni sauna seco.",
+      "type": "instala_parafrasis_2",
+      "deep": 2,
+      "category": "instalaciones"
+    },
+    {
+      "question": "El gimnasio esta grande o tiene buen equipamiento",
+      "answer": "Contamos con caminadoras, elípticas, bicicletas, máquinas de fuerza y zona completa de peso libre con mancuernas y barras, además de limpieza constante y clima agradable.",
+      "type": "instala_parafrasis_3",
+      "deep": 2,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Nunca he ido a un gimnasio me pueden ayudar",
+      "answer": "Claro, no necesitas experiencia previa. Nuestro personal y entrenadores de piso pueden orientarte en el uso de equipos y rutina básica si estás comenzando.",
+      "type": "general_parafrasis_1",
+      "deep": 2,
+      "category": "general"
+    },
+    {
+      "question": "Informacion de contacto o recepcion",
+      "answer": "Puedes acudir a recepción en el horario del gimnasio para inscripciones, pagos, dudas de membresía y calendario de clases. También puedes usar la app del gimnasio para consultas según esté disponible.",
+      "type": "general_parafrasis_2",
+      "deep": 2,
+      "category": "general"
+    },
+    {
+      "question": "Tienen app para socios",
+      "answer": "Sí, contamos con una app donde puedes consultar tu información, pagos y accesos.",
+      "type": "general_parafrasis_3",
+      "deep": 2,
+      "category": "general"
+    },
+    {
+      "question": "Precios",
+      "answer": "Contamos con dos planes: Plan Básico por $499 MXN mensuales (acceso área de pesas y cardio) y Plan Black por $699 MXN mensuales (multisucursal, clases, sillones de masaje e invitados en fin de semana). También aplican inscripción, mantenimiento anual y opciones de pase por día.",
+      "type": "costo_corto_1",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Horarios",
+      "answer": "Abrimos de lunes a viernes de 5:00 AM a 11:00 PM. Los sábados de 7:00 AM a 5:00 PM y domingos de 8:00 AM a 2:00 PM.",
+      "type": "horario_corto_1",
+      "deep": 2,
+      "category": "horarios"
+    },
+    {
+      "question": "Clases",
+      "answer": "Tenemos clases de Zumba, Spinning, Body Combat y Yoga en salón equipado. Con membresía Black van incluidas sin límite. Pide horarios en recepción.",
+      "type": "servicio_corto_1",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Membresia",
+      "answer": "Manejamos Plan Básico $499 MXN/mes y Plan Black $699 MXN/mes. Inscripción $300 MXN (a veces promoción). Pregunta en recepción por tu caso.",
+      "type": "costo_corto_2",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Oye una duda cuanto cobran al mes y si hay que pagar inscripcion",
+      "answer": "Plan Básico $499 MXN/mes y Plan Black $699 MXN/mes. La inscripción es $300 MXN; a menudo hay promoción de inscripción gratis al pagar tu primera mensualidad.",
+      "type": "costo_conversacional_1",
+      "deep": 3,
+      "category": "costos"
+    },
+    {
+      "question": "Buenas tardes necesito informacion sobre horarios y costos por favor",
+      "answer": "Horarios: lun-vie 5:00 AM-11:00 PM, sáb 7:00 AM-5:00 PM, dom 8:00 AM-2:00 PM. Costos: Plan Básico $499 MXN/mes, Plan Black $699 MXN/mes; inscripción $300 MXN. Detalle en recepción.",
+      "type": "mix_horario_costo_1",
+      "deep": 3,
+      "category": "general"
+    },
+    {
+      "question": "Me puedes ayudar con todo lo de membresias y reglas basicas",
+      "answer": "Membresías: Plan Básico y Black con distintos beneficios. Reglas clave: edad mínima 14 años, ropa deportiva y tenis, toalla obligatoria, respeto en el uso de equipos. Cancelación con 15 días de anticipación a tu corte. Para detalle completo pregunta en recepción.",
+      "type": "general_mix_1",
+      "deep": 3,
+      "category": "general"
+    },
+    {
+      "question": "Si voy de viaje puedo pausar el gym",
+      "answer": "Sí, puedes pausar o 'congelar' tu membresía por motivos personales o de viaje hasta por 2 meses. Este trámite tiene un cargo administrativo de $100 MXN.",
+      "type": "regla_parafrasis_7",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Tienen seguridad camaras en el lugar",
+      "answer": "Sí, contamos con cámaras y personal para garantizar la seguridad de los usuarios.",
+      "type": "instala_parafrasis_4",
+      "deep": 2,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Como funciona el tema de invitados familiares",
+      "answer": "Con membresía Black puedes llevar a un invitado gratis de viernes a domingo (un invitado por visita). Con plan básico el pase de invitado cuesta $100 MXN.",
+      "type": "servicio_parafrasis_9",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Tienen wifi gratis para entrenar",
+      "answer": "Ofrecemos conexión a nuestra red Wi-Fi exclusiva para socios de forma gratuita. Los códigos QR para escanear y conectarte están ubicados en la recepción y espejos de vestidores.",
+      "type": "servicio_parafrasis_10",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Miden grasa corporal o composicion con InBody",
+      "answer": "Contamos con báscula genérica gratuita. Además, tenemos tecnología InBody (análisis de composición corporal). El escaneo InBody está incluido en tu consulta de nutrición, o cuesta $100 MXN individual.",
+      "type": "servicio_parafrasis_11",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Puedo llevar a mi perro o mascota",
+      "answer": "Para prevenir accidentes con los equipos de peso y por políticas de sanidad, no permitimos el ingreso de mascotas. Solo se admite el acceso a perros guía o de asistencia con su certificación.",
+      "type": "regla_parafrasis_8",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo poner musica en bocina o solo audifonos",
+      "answer": "Por respeto a todos los usuarios, no está permitido el uso de bocinas personales en el área de entrenamiento. Si deseas escuchar tu propia música, debes usar audífonos.",
+      "type": "regla_parafrasis_9",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Perdi algo en el gym tienen objetos perdidos",
+      "answer": "Contamos con una caja de objetos perdidos en el mostrador. Guardamos artículos olvidados por un máximo de 15 días. Te sugerimos siempre usar candado, ya que el gimnasio no responde por objetos de valor fuera de lockers cerrados.",
+      "type": "regla_parafrasis_10",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Si me lesiono aqui tienen seguro o primeros auxilios",
+      "answer": "El personal de staff está capacitado en primeros auxilios. Además, tu pago de mantenimiento anual incluye una póliza de seguro de gastos médicos menores por accidentes ocurridos usando correctamente las instalaciones.",
+      "type": "regla_parafrasis_11",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Puedo domiciliar el cargo a mi tarjeta",
+      "answer": "Sí, recomendamos domiciliar el pago a tu tarjeta de crédito o débito para evitar recargos por pago tardío. Puedes activarlo directo en recepción o en nuestra app.",
+      "type": "costo_parafrasis_13",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Puedo cambiar de plan basico a black",
+      "answer": "Sí, puedes hacer el cambio de plan directamente en recepción pagando la diferencia correspondiente.",
+      "type": "costo_parafrasis_14",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Venden proteina o suplementos en recepcion",
+      "answer": "En la recepción tenemos a la venta botellas de agua, bebidas deportivas, barras energéticas, pre-entrenos y scoops individuales de proteína en polvo de diferentes marcas.",
+      "type": "servicio_parafrasis_12",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Tienen promocion de inscripcion gratis",
+      "answer": "Sí, regularmente al inicio de cada mes lanzamos campañas donde la inscripción es gratis al pagar tu primera mensualidad.",
+      "type": "costo_parafrasis_15",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Donde me inscribo o contrato la membresia",
+      "answer": "El trámite lo haces en recepción con horario del gimnasio. Ahí te explican planes Básico y Black, inscripción y formas de pago.",
+      "type": "general_parafrasis_4",
+      "deep": 2,
+      "category": "general"
+    },
+    {
+      "question": "Que es el plan basico y que incluye",
+      "answer": "El Plan Básico cuesta $499 MXN mensuales e incluye acceso al área de pesas y cardio (no incluye clases grupales; esas van en el Plan Black).",
+      "type": "costo_parafrasis_16",
+      "deep": 2,
+      "category": "costos"
+    },
+    {
+      "question": "Abren los lunes a las seis de la manana",
+      "answer": "Sí, de lunes a viernes abrimos desde las 5:00 AM, así que a las 6:00 AM ya estamos abiertos.",
+      "type": "horario_parafrasis_7",
+      "deep": 2,
+      "category": "horarios"
+    },
+    {
+      "question": "A que hora cierran entre semana",
+      "answer": "De lunes a viernes cerramos a las 11:00 PM.",
+      "type": "horario_parafrasis_8",
+      "deep": 2,
+      "category": "horarios"
+    },
+    {
+      "question": "Cuanto cuesta el personal trainer por hora",
+      "answer": "El Entrenador Personal cuesta $250 MXN por hora, o puedes comprar un paquete de 10 sesiones por $2,000 MXN.",
+      "type": "servicio_parafrasis_13",
+      "deep": 2,
+      "category": "servicios"
+    },
+    {
+      "question": "Tienen vapor o sauna",
+      "answer": "Contamos con área de cuarto de vapor dentro de los vestidores, incluido en tu mensualidad. Por el momento no contamos con sauna seco.",
+      "type": "instala_parafrasis_5",
+      "deep": 2,
+      "category": "instalaciones"
+    },
+    {
+      "question": "Puedo usar el celular en el area de pesas",
+      "answer": "Sí, siempre que no interfiera con otros usuarios. Para música usa audífonos; no bocinas.",
+      "type": "regla_parafrasis_12",
+      "deep": 2,
+      "category": "reglas"
+    },
+    {
+      "question": "Informacion sobre membresia y cuotas extras",
+      "answer": "Además de la mensualidad del plan (Básico o Black), puede aplicar inscripción ($300 MXN), mantenimiento anual ($450 MXN en el tercer mes), y cargos opcionales como congelación o PT. Recepción te detalla tu caso.",
+      "type": "general_parafrasis_5",
+      "deep": 3,
       "category": "general"
     }
   ]

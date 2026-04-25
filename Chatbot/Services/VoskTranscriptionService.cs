@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using Chatbot.Models;
@@ -67,6 +68,42 @@ public sealed class VoskTranscriptionService : IAudioTranscriptionService, IDisp
 
         // Permite usar rutas relativas al proyecto para que sea portable entre equipos.
         return Path.GetFullPath(Path.Combine(contentRootPath, configuredPath));
+    }
+
+    /// <inheritdoc/>
+    public async Task<string> TranscribeFromBytesAsync(byte[] audioBytes, CancellationToken cancellationToken = default)
+    {
+        if (audioBytes == null || audioBytes.Length == 0)
+        {
+            return string.Empty;
+        }
+
+        // WhatsApp Web suele enviar contenedor Ogg + Opus.
+        var tempFile = Path.Combine(Path.GetTempPath(), $"vosk-{Guid.NewGuid():N}.ogg");
+        try
+        {
+            await File.WriteAllBytesAsync(tempFile, audioBytes, cancellationToken);
+            return TranscribeFromFile(tempFile);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning(ex, "No se pudo transcribir audio desde bytes ({Length} bytes)", audioBytes.Length);
+            return string.Empty;
+        }
+        finally
+        {
+            try
+            {
+                if (File.Exists(tempFile))
+                {
+                    File.Delete(tempFile);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogDebug(ex, "No se pudo borrar temporal de transcripción");
+            }
+        }
     }
 
     /// <inheritdoc/>
@@ -141,8 +178,19 @@ public sealed class VoskTranscriptionService : IAudioTranscriptionService, IDisp
         recognizer.SetMaxAlternatives(0);
         recognizer.SetWords(false);
 
+        var sw = Stopwatch.StartNew();
+        var packets = 0;
         while (oggIn.HasNextPacket)
         {
+            packets++;
+            if (sw.Elapsed > TimeSpan.FromSeconds(15) || packets > 12000)
+            {
+                _logger.LogWarning(
+                    "Transcripción detenida por límite de seguridad (elapsed={ElapsedMs}ms, packets={Packets})",
+                    sw.ElapsedMilliseconds, packets);
+                break;
+            }
+
             var pcmShorts = oggIn.DecodeNextPacket();
             if (pcmShorts == null || pcmShorts.Length == 0) continue;
 
