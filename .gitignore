@@ -30,6 +30,8 @@ Thumbs.db
 # Ignorar configuraciones locales con contraseñas
 appsettings.json
 appsettings.Development.json
+Chatbot/appsettings.json
+Chatbot/appsettings.Development.json
 
 # WhatsApp Web.js (sesión local y caché; no versionar)
 Chatbot/Bridge/.wwebjs_auth/

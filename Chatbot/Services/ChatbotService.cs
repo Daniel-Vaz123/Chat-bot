@@ -177,13 +177,18 @@ public class ChatbotService
         var questionEmbedding = embeddings[0].Vector;
 
         var response = await QueryS3VectorsAsync(questionEmbedding);
-        
+
+        // El más cercano suele ser el primero; si hay varios candidatos, usamos el de menor distancia.
+        var best = response.Vectors.Count == 0
+            ? null
+            : response.Vectors.OrderBy(v => v.Distance).First();
+
         // Criterio de similitud: si la distancia es muy grande, no usamos la API para ahorrar tokens
-        if (response.Vectors.Count == 0 || response.Vectors[0].Distance > _maxQueryDistance)
+        if (best == null || best.Distance > _maxQueryDistance)
             return "Lo siento, no encuentro esa información en nuestra base de datos. ¿Te puedo ayudar con precios u horarios?";
 
         // Armamos el contexto a mandarle a DeepSeek
-        var metadata = response.Vectors[0].Metadata.AsDictionary();
+        var metadata = best.Metadata.AsDictionary();
         string context = $"Pregunta encontrada en base: {metadata["question"].AsString()}\n" +
                          $"Información oficial: {metadata["answer"].AsString()}";
 
@@ -325,6 +330,81 @@ public class ChatbotService
         return result;
     }
 
+    /// <summary>
+    /// Lista todos los vectores de un índice usando paginación de S3 Vectors.
+    /// Útil para auditoría y verificación de datos cargados en AWS.
+    /// </summary>
+    public async Task<VectorAuditResult> ListAllVectorsAsync(
+        string indexName,
+        bool returnData = false,
+        int pageSize = 500)
+    {
+        // Asegurar existencia del índice antes de listar
+        int dimensions = string.Equals(indexName, _imageIndexName, StringComparison.Ordinal)
+            ? _imageEmbeddingDimensions
+            : _textEmbeddingDimensions;
+
+        await _indexManager.EnsureIndexExistsAsync(
+            _vectorBucketName,
+            indexName,
+            dimensions);
+
+        var result = new VectorAuditResult
+        {
+            BucketName = _vectorBucketName,
+            IndexName = indexName
+        };
+
+        string? nextToken = null;
+
+        do
+        {
+            var response = await _s3Vectors.ListVectorsAsync(new ListVectorsRequest
+            {
+                VectorBucketName = _vectorBucketName,
+                IndexName = indexName,
+                MaxResults = pageSize,
+                NextToken = nextToken,
+                ReturnMetadata = true,
+                ReturnData = returnData
+            });
+
+            result.PagesFetched++;
+
+            if (response.Vectors is not null)
+            {
+                foreach (var vector in response.Vectors)
+                {
+                    var metadata = new Dictionary<string, string>();
+                    try
+                    {
+                        foreach (var kvp in vector.Metadata.AsDictionary())
+                        {
+                            metadata[kvp.Key] = kvp.Value.AsString();
+                        }
+                    }
+                    catch
+                    {
+                        // Si no hay metadata o no es un objeto, dejamos el diccionario vacío.
+                    }
+
+                    result.Vectors.Add(new VectorAuditItem
+                    {
+                        Key = vector.Key,
+                        Dimensions = vector.Data?.Float32?.Count ?? 0,
+                        Metadata = metadata
+                    });
+                }
+            }
+
+            nextToken = response.NextToken;
+        }
+        while (!string.IsNullOrWhiteSpace(nextToken));
+
+        result.TotalVectors = result.Vectors.Count;
+        return result;
+    }
+
     #endregion
 
     #region Helpers
@@ -346,7 +426,7 @@ public class ChatbotService
         {
             VectorBucketName = _vectorBucketName,
             IndexName = _indexName,
-            TopK = 1,
+            TopK = 5,
             QueryVector = new VectorData { Float32 = vector.ToArray().ToList() },
             ReturnMetadata = true,
             ReturnDistance = true
@@ -371,4 +451,20 @@ public class ChatbotService
 }
 
 public record ImageEntry(string Description, string ImageUrl,string Category,string Location);
+
+public class VectorAuditResult
+{
+    public string BucketName { get; set; } = string.Empty;
+    public string IndexName { get; set; } = string.Empty;
+    public int TotalVectors { get; set; }
+    public int PagesFetched { get; set; }
+    public List<VectorAuditItem> Vectors { get; set; } = [];
+}
+
+public class VectorAuditItem
+{
+    public string Key { get; set; } = string.Empty;
+    public int Dimensions { get; set; }
+    public Dictionary<string, string> Metadata { get; set; } = [];
+}
 

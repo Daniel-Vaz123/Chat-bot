@@ -7,14 +7,15 @@ using Microsoft.Extensions.Caching.Memory;
 namespace Chatbot.Controllers;
 
 /// <summary>
-/// Recibe notificaciones de Twilio WhatsApp y las enruta al <see cref="IGymConversationRouter"/>.
-/// Siempre retorna HTTP 200 para evitar reintentos automáticos de Twilio.
+/// Recibe notificaciones del bridge de WhatsApp y las procesa con RAG.
+/// Siempre retorna HTTP 200 para evitar reintentos del emisor.
 /// </summary>
 [ApiController]
 [Route("api/whatsapp")]
 public sealed class WhatsAppController : ControllerBase
 {
-    private const string AudioFallback = "[audio no reconocido]";
+    private const string AudioNotUnderstood =
+        "No pude entender bien el audio. Intenta escribir tu pregunta o graba de nuevo un poco más claro.";
     private const string TwimlEmptyResponse = "<Response/>";
 
     private readonly ChatbotService _chatbotService;
@@ -43,8 +44,8 @@ public sealed class WhatsAppController : ControllerBase
     }
 
     /// <summary>
-    /// Endpoint webhook que recibe mensajes de WhatsApp desde Twilio.
-    /// Acepta application/x-www-form-urlencoded.
+    /// Endpoint webhook que recibe mensajes de WhatsApp desde el bridge Node.
+    /// Acepta application/json.
     /// </summary>
     [HttpPost]
     [Consumes("application/json")]
@@ -107,7 +108,7 @@ public sealed class WhatsAppController : ControllerBase
             }
         }
 
-        // Siempre retornar HTTP 200 con TwiML vacío para evitar reintentos de Twilio
+        // Siempre retornar HTTP 200 para evitar reintentos del bridge
         return TwimlOk();
     }
 
@@ -168,14 +169,38 @@ public sealed class WhatsAppController : ControllerBase
             return payload.Body ?? string.Empty;
         }
 
-        // Para el puente Node, el audio llegaría diferido o en Base64.
-        // Por simplicidad temporal, como es proyecto local usando Node.js 
-        // pasamos el mensaje que haya podido llegar como fallback
-        
-        return AudioFallback;
+        if (!string.IsNullOrWhiteSpace(payload.AudioBase64))
+        {
+            try
+            {
+                var bytes = Convert.FromBase64String(payload.AudioBase64.Trim());
+                _logger.LogInformation("Iniciando transcripción de audio para {UserId} ({Bytes} bytes)", userId, bytes.Length);
+
+                var text = await _transcriptionService
+                    .TranscribeFromBytesAsync(bytes)
+                    .WaitAsync(TimeSpan.FromSeconds(20));
+
+                if (!string.IsNullOrWhiteSpace(text))
+                {
+                    _logger.LogInformation("Audio transcrito para {UserId}: {Preview}", userId,
+                        text.Length > 80 ? text[..80] + "…" : text);
+                    return text;
+                }
+            }
+            catch (TimeoutException ex)
+            {
+                _logger.LogWarning(ex, "Timeout de transcripción de audio para {UserId}", userId);
+            }
+            catch (FormatException ex)
+            {
+                _logger.LogWarning(ex, "audioBase64 inválido desde {UserId}", userId);
+            }
+        }
+
+        return AudioNotUnderstood;
     }
 
-    /// <summary>Retorna HTTP 200 con un body TwiML vacío.</summary>
+    /// <summary>Retorna HTTP 200 con un body XML vacío.</summary>
     private ContentResult TwimlOk() =>
         Content(TwimlEmptyResponse, "text/xml");
 }

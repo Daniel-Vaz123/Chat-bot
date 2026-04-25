@@ -14,9 +14,6 @@
     <PackageReference Include="NAudio" Version="2.2.1" />
     <PackageReference Include="Vosk" Version="0.3.38" />
 
-    <!-- WhatsApp / Twilio -->
-    <PackageReference Include="Twilio" Version="7.0.0" />
-
     <!-- AWS SDK -->
     <PackageReference Include="AWSSDK.BedrockRuntime" Version="3.7.400" />
     <PackageReference Include="AWSSDK.S3Vectors" Version="3.7.400" />
